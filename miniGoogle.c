@@ -24,6 +24,7 @@ struct lista{
 	int tamanho;
 };
 
+//TESTE TESsTE
 char *lerString(){
     char *string = NULL;
     char c;
