@@ -7,6 +7,10 @@ int main(int argc, char const *argv[])
 {
 	FILE *fp = fopen("googlebot.txt", "r");
 
+/*
+teste dop git
+*/
+
 	int oper;
 	do{
 		scanf("%d", &oper);
