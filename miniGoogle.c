@@ -44,8 +44,8 @@ int geraCodigo(LISTA *lista){
 
 }
 
-void apaga_no(no **ptr){
-    liberar_lista(&((*ptr)->palavras));
+void apaga_no(NO **ptr){
+    liberar_lista(&((*ptr)->item->palavras));
     free((*ptr)->item);
     free(*ptr);
     *ptr = NULL;
@@ -152,15 +152,19 @@ void imprime_lista(LISTA *lista){
 boolean insere_site(LISTA *lista, NO *p){
 	int code;
 
-	scanf("%d", &code);
+	//scanf("%d", &code);
 
-	char *siteName = NULL;
+	//char *siteName = NULL;
 
-	while(siteName == NULL /*&& strlen(siteName) > 50*/){
-		siteName = lerString();
-	}
+	//while(siteName == NULL /*&& strlen(siteName) > 50*/){
+	//	siteName = lerString();
+	//}
 
-	if(!(existe_codigo(lista, code))){
+    if(p->item->codigo == -1){
+        p->item->codigo = geraCodigo(lista);
+    }
+
+	if((existe_codigo(lista, p->item->codigo)) == NULL){
 		if(vazia(lista)){
 			lista->inicio->item->codigo = code;
 			strcpy(lista->inicio->item->nomeSite, siteName);

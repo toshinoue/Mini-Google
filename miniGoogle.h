@@ -1,6 +1,7 @@
 #ifndef MINI_GOOGLE_H
 #define MINI_GOOGLE_H
 
+
 #define TAM 51
 #define N 101
 #define TRUE 1

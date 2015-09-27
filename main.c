@@ -1,17 +1,25 @@
+#include "lista_seq_din.h"
+#include "miniGoogle.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "miniGoogle.h"
-#include "miniGoogle.c"
 
 int main(int argc, char const *argv[])
 {
+    //LISTA_SEQ palavras;
+    LISTA * teste;
+
 	FILE *fp = fopen("googlebot.txt", "r");
-
-/*
-teste dop git
-*/
-
-	int oper;
+	char *lista = NULL;
+	char fileElement;
+	int count = 0;
+	fscanf(fp, "%c", &fileElement);
+	while(!feof(fp)){
+		lista = (char *)realloc(lista, sizeof(char) * (count+1));
+		lista[count++] = fileElement;
+		fscanf(fp, "%c", &fileElement);
+	}
+	printf("%s\n", lista);
+	int oper; //pelo
 	do{
 		scanf("%d", &oper);
 		switch(oper){
@@ -37,8 +45,7 @@ teste dop git
 			//Sugestao do site
 				break;
 		}
-	}while(oper != 8)
-
+	}while(oper != 8);
 	fclose(fp);
 	return 0;
 }

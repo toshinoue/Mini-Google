@@ -1,6 +1,7 @@
 #ifndef LISTA_H
 #define LISTA_H
 
+
 typedef char CHAVE;
 typedef struct item_seq ITEM_SEQ;
 
