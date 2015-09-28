@@ -19,26 +19,11 @@ struct node{
 };
 
 struct lista{
-	NO *inicio;
+	NO *cabeca;
 	NO *fim;
 	int tamanho;
+	//aramzenar o ultimo codigo utilizado?
 };
-
-char *lerString(){
-    char *string = NULL;
-    char c;
-    int cont = 1, fim;
-
-    do{
-        fim = scanf("%c", &c);
-        string = (char*)realloc(string, sizeof(char)*cont++);
-        string[cont-2] = c;
-	}while(c!=10 || fim <= 0);
-
-    string[cont-2] = '\0';
-
-    return string;
-}
 
 int geraCodigo(LISTA *lista){
 
@@ -53,7 +38,7 @@ void apaga_no(NO **ptr){
 
 //mudar nome??? -> busca_codigo
 NO *existe_codigo(LISTA *lista, int code){
-	NO *p = lista->inicio;
+	NO *p = lista->cabeca->proximo;
 
 	while(p != NULL && p->item->codigo != code){
 		p = p->proximo;
@@ -96,7 +81,10 @@ LISTA *criar_lista(){
 	LISTA *lista = (LISTA *)malloc(sizeof(LISTA));
 
 	if(lista != NULL){
-		lista->inicio = NULL;
+		lista->cabeca = (NO*)malloc(sizeof(NO));
+		if(lista->cabeca == NULL)
+            return NULL;
+        lista->cabeca->proximo = NULL;
 		lista->fim = NULL;
 		lista->tamanho = 0;
 		return lista;
@@ -110,8 +98,9 @@ void apagar_lista(LISTA **ptr){
     if(ptr != NULL && (*ptr) != NULL){
 
         if(vazia(*ptr) == FALSE){
-            esvazia_lista((*ptr)->inicio);
+            esvazia_lista((*ptr)->cabeca->proximo);
         }
+        free((*ptr)->cabeca);
         free(*ptr);
         *ptr = NULL;
      }
@@ -125,7 +114,7 @@ void esvazia_lista(NO *ptr){
 }
 
 boolean vazia(LISTA *lista){
-	if(lista->inicio == NULL)
+	if(lista->cabeca->proximo == NULL)
 		return(TRUE);
 
 	return(FALSE);
@@ -138,7 +127,7 @@ int tamanho(LISTA *lista){
 void imprime_lista(LISTA *lista){
 	NO *p;
 	if(!vazia(lista) && (lista!=NULL)){
-        p = lista->inicio;
+        p = lista->cabeca->proximo;
         while(p != NULL){
             //FALTA PALAVRAS CHAVES
             printf("%d, %s, %d, %s\n", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
@@ -150,32 +139,38 @@ void imprime_lista(LISTA *lista){
 //passar o NO como parametro....
 // -> criar função criar_no/criar_item (ler parametros na main.....)
 boolean insere_site(LISTA *lista, NO *p){
-	int code;
+    if(lista != NULL && p != NULL){
+        if(p->item->codigo == -1){
+            p->item->codigo = geraCodigo(lista);
+        }
 
-	//scanf("%d", &code);
+        if((existe_codigo(lista, p->item->codigo)) == NULL){
+            if(vazia(lista)){
+                lista->cabeca->proximo = p;
+                lista->fim = p;
+                lista->tamanho++;
 
-	//char *siteName = NULL;
+                p->anterior = lista->cabeca;
+                p->proximo = NULL;
+            }
+            else{
+                NO *n = lista->cabeca->proximo;
 
-	//while(siteName == NULL /*&& strlen(siteName) > 50*/){
-	//	siteName = lerString();
-	//}
+                while(n->item->relevancia > p->item->relevancia){
+                    n = n->proximo;
+                }
 
-    if(p->item->codigo == -1){
-        p->item->codigo = geraCodigo(lista);
+                p->proximo = n;
+                p->anterior = n->anterior;
+                p->anterior->proximo = p;
+                n->anterior = p;
+
+                lista->tamanho++;
+            }
+            return TRUE;
+        }
+        else return FALSE;
     }
-
-	if((existe_codigo(lista, p->item->codigo)) == NULL){
-		if(vazia(lista)){
-			lista->inicio->item->codigo = code;
-			strcpy(lista->inicio->item->nomeSite, siteName);
-		}
-		else{
-			lista->fim->item->codigo = code;
-			strcpy(lista->fim->item->nomeSite, siteName);
-		}
-		return TRUE;
-	}
-	else return FALSE;
 }
 
 boolean insere_chave(LISTA *lista, int codigo){
