@@ -4,7 +4,7 @@
 #include <string.h>
 
 struct item_seq{
-    CHAVE chave[51];
+    CHAVE chave[TAM_C];
 };
 
 struct lista_seq{
@@ -72,4 +72,17 @@ int listaVazia(LISTA_SEQ *lista){
     } else {
         return 1;
     }
+}
+
+void imprime_lista_seq(LISTA_SEQ *lista){
+    int i;
+
+    if(lista != NULL){
+        //printf("\n\ntamanho: %d\n\n", lista->tamanho);
+
+        for(i=0; i < lista->tamanho; i++){
+            printf(", %s", lista->array[i].chave);
+        }
+    }
+
 }

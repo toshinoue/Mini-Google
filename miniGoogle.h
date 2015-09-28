@@ -24,7 +24,7 @@ int tamanho(LISTA *lista);
 void imprime_lista(LISTA *lista);
 
 boolean insere_site(LISTA *lista, NO *p);
-boolean insere_chave(LISTA *lista, int codigo);
+boolean insere_chave(LISTA *lista, int codigo, char *chave);
 boolean remove_site(LISTA *lista, int codigo);
 
 void atualiza_relevancia(LISTA *lista, int codigo);

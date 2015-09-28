@@ -26,7 +26,7 @@ struct lista{
 };
 
 int geraCodigo(LISTA *lista){
-
+    return -1;
 }
 
 void apaga_no(NO **ptr){
@@ -49,7 +49,7 @@ NO *existe_codigo(LISTA *lista, int code){
 }
 
 //se o site for novo (nao foi lido do txt), o codigo sera igual a -1
-ITEM *criar_item(int codigo, char nomeSite[TAM], int relevancia){
+ITEM *criar_item(int codigo, char nomeSite[TAM], int relevancia, char link[N]){
     ITEM *item;
 
     item = (ITEM *) malloc(sizeof(ITEM));
@@ -57,8 +57,9 @@ ITEM *criar_item(int codigo, char nomeSite[TAM], int relevancia){
     if (item != NULL){
         item->codigo = codigo; //verificar se o codigo ja existe caso seja um codigo valido
         strcpy(item->nomeSite, nomeSite);
+        strcpy(item->link, link);
         item->relevancia = relevancia;
-        item->palavras = NULL;
+        item->palavras = criar_lista_seq();
         return(item);
     }
     return(NULL);
@@ -110,7 +111,7 @@ void esvazia_lista(NO *ptr){
     if(ptr->proximo != NULL)
         esvazia_lista(ptr->proximo);
 
-    apaga_no(ptr);
+    apaga_no(&ptr);
 }
 
 boolean vazia(LISTA *lista){
@@ -130,20 +131,20 @@ void imprime_lista(LISTA *lista){
         p = lista->cabeca->proximo;
         while(p != NULL){
             //FALTA PALAVRAS CHAVES
-            printf("%d, %s, %d, %s\n", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+            printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+            imprime_lista_seq(p->item->palavras);
+            printf("\n");
             p = p->proximo;
         }
 	}
 }
 
-//passar o NO como parametro....
-// -> criar função criar_no/criar_item (ler parametros na main.....)
+
 boolean insere_site(LISTA *lista, NO *p){
     if(lista != NULL && p != NULL){
-        if(p->item->codigo == -1){
+        /*if(p->item->codigo == -1){
             p->item->codigo = geraCodigo(lista);
-        }
-
+        }*/
         if((existe_codigo(lista, p->item->codigo)) == NULL){
             if(vazia(lista)){
                 lista->cabeca->proximo = p;
@@ -156,14 +157,22 @@ boolean insere_site(LISTA *lista, NO *p){
             else{
                 NO *n = lista->cabeca->proximo;
 
-                while(n->item->relevancia > p->item->relevancia){
+                while(n != NULL && n->item->relevancia > p->item->relevancia){
                     n = n->proximo;
                 }
 
-                p->proximo = n;
-                p->anterior = n->anterior;
-                p->anterior->proximo = p;
-                n->anterior = p;
+                if(n == NULL){
+                    p->anterior = lista->fim;
+                    p->proximo = NULL;
+
+                    lista->fim->proximo = p;
+                    lista->fim = p;
+                } else {
+                    p->proximo = n;
+                    p->anterior = n->anterior;
+                    p->anterior->proximo = p;
+                    n->anterior = p;
+                }
 
                 lista->tamanho++;
             }
@@ -171,29 +180,29 @@ boolean insere_site(LISTA *lista, NO *p){
         }
         else return FALSE;
     }
+    return FALSE;
 }
 
-boolean insere_chave(LISTA *lista, int codigo){
-	char *chave = NULL;
-	while(chave == NULL && strlen(chave) > 50){
-		chave = lerString();
+boolean insere_chave(LISTA *lista, int codigo, char *chave){
+
+	if(lista != NULL && chave != NULL){
+        if(!vazia(lista)){
+            NO *aux = existe_codigo(lista, codigo);
+
+            if(aux == NULL){
+                return FALSE;
+            }
+            inserir_ordenado(aux->item->palavras, chave);
+        }
+	} else {
+        return FALSE;
 	}
-	int i = 0;
-	if(vazia(lista)){
-		lista->inicio->item->chave = (char *)realloc(lista->inicio->item->chave, sizeof(char [50]) * (i+1));
-		strcpy(lista->inicio->item->chave[i], chave);
-		i++;
-	}
-	else{
-		lista->fim->item->chave = (char *)realloc(lista->fim->item->chave, sizeof(char) * (i+1));
-		strcpy(lista->fim->item->chave[i], chave);
-		i++;
-	}
+
 	return TRUE;
 }
 
 boolean remove_site(LISTA *lista, int codigo){
-	int code;
+	/*int code;
 	scanf("%d", &code);
 	if(existe_codigo(lista, code)){
         NO *p = lista->inicio;
@@ -214,7 +223,7 @@ boolean remove_site(LISTA *lista, int codigo){
     	}
 		return TRUE;
 	}
-	else return FALSE;
+	else */return FALSE;
 }
 
 void atualiza_relevancia(LISTA *lista, int code){
