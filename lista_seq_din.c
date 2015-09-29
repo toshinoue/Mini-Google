@@ -4,11 +4,11 @@
 #include <string.h>
 
 struct item_seq{
-    CHAVE chave[TAM_C];
+    CHAVE chave[51];
 };
 
 struct lista_seq{
-    ITEM_SEQ *array;
+    ITEM_SEQ array[10];
     int tamanho;
 };
 
@@ -34,23 +34,20 @@ void insertion_sort(LISTA_SEQ *lista){
 			}
 		}
 	}
-
 }
+
 
 LISTA_SEQ *criar_lista_seq(){
     LISTA_SEQ *lista = (LISTA_SEQ*)malloc(sizeof(LISTA_SEQ));
-    lista->tamanho = 0;
-    lista->array = NULL;
+    if(lista != NULL){
+        lista->tamanho = 0;
+        lista->array = NULL;    
+    }
 
     return lista;
 }
 
 void liberar_lista(LISTA_SEQ **lista){
-    if(lista != NULL && (*lista) != NULL){
-        if((*lista)->array != NULL){
-            free((*lista)->array);
-            (*lista)->array = NULL;
-        }
         free(*lista);
         (*lista) = NULL;
     }
@@ -74,15 +71,14 @@ int listaVazia(LISTA_SEQ *lista){
     }
 }
 
-void imprime_lista_seq(LISTA_SEQ *lista){
+int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     int i;
-
-    if(lista != NULL){
-        //printf("\n\ntamanho: %d\n\n", lista->tamanho);
-
-        for(i=0; i < lista->tamanho; i++){
-            printf(", %s", lista->array[i].chave);
+    for(i = 0; i < lista->tamanho; i++){
+        if(strcmp(lista->array[i].chave, chave) == 0){
+            //return TRUE;
+            return 1;
         }
     }
-
+    //return FALSE;
+    return 0;
 }
