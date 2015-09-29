@@ -5,4 +5,31 @@
 0133,Henrique Me Ajuda,990,http://henriquemeajuda.com.br/,trabalho,alg1,help me
 0913,Vem Comigo amor eu vou,999,http://madagascar.com.br/,madagascar,edy lemond
 0543,uen ai meti iu,890,http://summercalvin.com.br/,calvin harris,summer,remix,trabalho
-8228,Sera que esta certo,,http://borabora.net.no/,chave,alg1,summer,trabalho,lanches
+0123,Sera que esta certo,322,http://borabora.net.no/,chave,alg1,summer,trabalho,lanches
+0003,Trabalho Bracal,123,http://trabalhobracal.eh.comigo.mesmo/,madagascar,ilha,calor,hue
+0006,Eh Comigo Mesmo,543,http://faltamuito.ainda.net/,vem comigo,amor
+0050,Podexa,900,http://podexa.com/,confia,da certo,amor
+0007,Ainda Falta bastante,997,http://pokemongo.com.br/,site,oficial,do,pokemon
+0008,Lets Go!,890,http://coragem.gente.net/,coragem,gente,pokemon
+0009,pikachu,658,http://ashketchum.pok.jp/pokemon,ash,merge sort
+0010,Choque do TROVAOO,992,http://tustuts.com.br/hue,brhu3,trovao de pegasus
+0011,Olha o que achei,0,http://justamenteporisso.ai.rudinei,love,de mais,ultima posicao
+0012,um mewtwo shiny,723,http://inserir.no.fim/,sim sim sim,nosso,amor,eh tao profundo
+0013,Me add no lol,995,http://lolbrmasterchef.hue.br/,jogo muito,Sao Carlos
+0014,HipsterAsianGuy,5,http://hipsterasianguy.com.jp/,lual,alg1,edy lemond
+0015,Jogo muito,-40,http://cansadoja.com.af/,acho que ta tudo errado,corona rules
+0016,logo,0,http://logo.net/,aff
+0017,feedo muito,999,http://feederoficial.com.br/,feeder,oficial,Sao Carlos
+0018,Qual metodo usar,522,http://ninguemvaiver.com.hide/,hide,pokemon,teste
+0019,Merge sort,283,http://mergesort.com/,sort,ive got tuts,tuts quer ver,amor
+0020,bubble sort,82,http://TOPdemais.no.comunidades/,bubble,sort
+0021,vou vendo vendo vendo,293,http://igorprogramamuito.com.fake/,lol,nem ta estudando
+0022,depois coloco,821,http://namoral.cansa.fazerisso/,lol,estou fumado,terminando
+0023,nao entendi,592,http://seraquetemrelevanciarepetida.com/duvida,lol,amor
+0024,iphone verde,024,http://iphoneverde.green.jp/,jp eh mais amor,ele so fica no cel,bonsai
+0025,que gay,837,http:esseehoultimo.no.meio/,cansado,quanto tempo,fiquei aqui,amor
+0026,Igor Nata,1002,http://novosobrenome.do.igor/,nata,manja muito,summer
+0027,sqn2,-999,http://eleachaqueeh.foda/,foda,sqn,hue,madagascar
+0028,Igro MoTTranzudo,0024,http://uiiii.que.calor/,amor,trabalhando,100 conto
+0029,EH O ULTIMOOO,0232,http://ULTIMOOOOO.uhuuull.br/hue,brhu3,amor
+0030,sqn,-132,http://agorasimehoultimo.com.br/,bora tomar uma breja,corona rules
