@@ -4,4 +4,5 @@
 0101,Cansei de fazer,290,http://eitatrabalhochato.com.br/,trabalho,alg1,aff
 0133,Henrique Me Ajuda,990,http://henriquemeajuda.com.br/,trabalho,alg1,help me
 0913,Vem Comigo amor eu vou,999,http://madagascar.com.br/,madagascar,edy lemond
-0543,uen ai meti iu,890,http://summercalvin.com.br/,calvin harris,summer,remix
+0543,uen ai meti iu,890,http://summercalvin.com.br/,calvin harris,summer,remix,trabalho
+8228,Sera que esta certo,,http://borabora.net.no/,chave,alg1,summer,trabalho,lanches
