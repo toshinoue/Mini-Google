@@ -262,17 +262,29 @@ void busca_palavra(LISTA *lista, char *chave){
 }
 
 void sugestao_site(LISTA *lista, char *chave){
-    LISTA_SEQ *palavras = criar_lista();
-    LISTA *aux = criar_lista_seq();
+    LISTA *sugestoes = criar_lista();
+    LISTA_SEQ *aux = criar_lista_seq();
 
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
         if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-            //if(busca_chave(palavras, ))
-            //inserir palavras na lista
+            transfere(aux, p->item->palavras);
         }
         p = p->proximo;
     }
 
+    /*while(!vazia(aux)){
+        char *word = remove_final(aux);
+        p = lista->cabeca->proximo;
+        while(p != NULL){
+            if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
+                insere_site(sugestoes, p);
+            }
+            p = p->proximo;
+        }
+    }*/
 
+    imprime_lista(sugestoes);
 }
+
+
