@@ -24,4 +24,6 @@ int tamanho_seq(LISTA_SEQ *lista);
 
 int transfere(LISTA_SEQ *lista, LISTA_SEQ *secundaria);
 
+CHAVE *remove_fim(LISTA_SEQ *lista);
+
 #endif // LISTA_ESTATICA_H
