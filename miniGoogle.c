@@ -25,6 +25,12 @@ struct lista{
 	//aramzenar o ultimo codigo utilizado?
 };
 
+void imprime_site(NO *p){
+    printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+    imprime_lista_seq(p->item->palavras);
+    printf("\n");
+}
+
 void insertionSort(LISTA *lista){
 	NO *i, *j, *aux;
 
@@ -141,9 +147,10 @@ void imprime_lista(LISTA *lista){
         p = lista->cabeca->proximo;
         while(p != NULL){
             //FALTA PALAVRAS CHAVES
-            printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+            /*printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
             imprime_lista_seq(p->item->palavras);
-            printf("\n");
+            printf("\n");*/
+            imprime_site(p);
             p = p->proximo;
         }
 	}
@@ -241,6 +248,15 @@ void atualiza_relevancia(LISTA *lista, int code, int relevancia){
 	insertionSort(lista);
 }
 
-void busca_palavra(LISTA *lista, char *chave);
+void busca_palavra(LISTA *lista, char *chave){
+    NO *p = lista->cabeca->proximo;
+
+    while(p != NULL){
+        if(busca_chave(p->item->palavras, chave)){
+            imprime_site(p);
+        }
+        p = p->proximo;
+    }
+}
 
 void sugestao_site(LISTA *lista, char *chave);

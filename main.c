@@ -80,6 +80,11 @@ int main(int argc, char const *argv[])
 
     imprime_lista(lista);
 
+    printf("\n\n\n\n\n");
+
+    busca_palavra(lista, "trabalho");
+
+
     liberar_lista(lista);
 
 	/*int oper, codigo;
