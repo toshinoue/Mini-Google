@@ -77,13 +77,13 @@ int main(int argc, char const *argv[])
     LISTA *lista = criar_lista();
     int oper, codigo, relevancia;
     //char *palavra;
-    char palavra[TAM], nomeSite[TAM], link[N];
+    char *palavra, *nomeSite, *link;
 
     leArquivo(fp, lista);
 
     printf("\n\n\n\n\n");
 
-
+//VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
 	do{
 		scanf("%d", &oper);
 		switch(oper){
@@ -91,21 +91,26 @@ int main(int argc, char const *argv[])
 			//Inserir um novo site na lista
 				scanf("%d", &codigo);
 				getchar();
-				//nomeSite = lerString();
-				scanf("%s", nomeSite);
+				nomeSite = lerString();
+				//scanf("%s", nomeSite);
 				scanf("%d", &relevancia);
 				getchar();
-				//link = lerString();
-				scanf("%s", link);
+				link = lerString();
+				//scanf("%s", link);
 				insere_site( lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
+				free(link);
+				free(nomeSite);
 				break;
 			case 2:
 			//Inserir palavra chave
                 scanf("%d", &codigo);
                 getchar();
-                //palavra = lerString();
-                scanf("%s", palavra);
-                insere_chave(lista, codigo, palavra);
+                palavra = lerString();
+                //scanf("%s", palavra);
+            printf("palavra digitada: %s\n", palavra);
+                if(insere_chave(lista, codigo, palavra))
+                    printf("sucesso ao inserir palavra chave\n");
+                free(palavra);
 				break;
 			case 3:
 			//Remover um site
@@ -124,10 +129,10 @@ int main(int argc, char const *argv[])
 			case 6:
 			//Busca por palavra chave
                 getchar();
-                //palavra = lerString();
-                scanf("%s", palavra);
+                palavra = lerString();
+                //scanf("%s", palavra);
                 busca_palavra(lista, palavra);
-                //free(palavra);
+                free(palavra);
 				break;
 			case 7:
 			//Sugestao do site
