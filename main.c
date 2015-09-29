@@ -27,16 +27,14 @@ void leArquivo(FILE *fp, LISTA *lista){
 	int codigo, relevancia;
 	char nomeSite[TAM], link[N], palavra[TAM]/*gambiarra '-'*/;
 
-
 	char carac;
 	char *tok;
 
+    fscanf(fp, "%c", &carac);
 	while(!feof(fp)){
-
 		int count = 0;
 		char *arq = NULL;
 
-		fscanf(fp, "%c", &carac);
 		while(!feof(fp) && carac != '\n'){
 			arq = (char *)realloc(arq, sizeof(char) * (count+1));
 			arq[count++] = carac;
@@ -58,16 +56,17 @@ void leArquivo(FILE *fp, LISTA *lista){
 		tok = strtok(NULL, ",");
 		strcpy(link, tok);
 
-        //insere_site(lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
+        insere_site(lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
 
 		tok = strtok(NULL, ",");
 		while(tok != NULL){
 			strcpy(palavra, tok);
-			//insere_chave(lista, codigo, tok);
+			insere_chave(lista, codigo, tok);
 			tok = strtok(NULL, ",");
 		}
-		printf("\n");
 		free(arq);
+
+		fscanf(fp, "%c", &carac);
 	}
 }
 
