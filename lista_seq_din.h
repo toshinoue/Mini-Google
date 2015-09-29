@@ -22,4 +22,6 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim);
 
 int tamanho_seq(LISTA_SEQ *lista);
 
+int transfere(LISTA_SEQ *lista, LISTA_SEQ *secundaria);
+
 #endif // LISTA_ESTATICA_H
