@@ -5,6 +5,19 @@
 
 //assumindo que o arquivo googlebot.txt esta ordenado pelo codigo
 
+/*strtoupper() - funcao que recebe  uma letra e retorna a versao maiuscula
+    Parametros
+        char c - letra a ser transformada em maiuscula
+    Retorno
+        char - letra maiuscula
+*/
+char ctolower(char c){
+    if(c >= 65 && c <= 90){
+        return c+32;
+    }
+    return c;
+}
+
 char *lerString(){
     char *string = NULL;
     char c;
@@ -23,7 +36,7 @@ char *lerString(){
 
 
 void leArquivo(FILE *fp, LISTA *lista){
-	int codigo, relevancia;
+	int codigo, relevancia, i;
 	char nomeSite[TAM], link[N], palavra[TAM]/*gambiarra '-'*/;
 
 	char carac;
@@ -59,7 +72,12 @@ void leArquivo(FILE *fp, LISTA *lista){
 
 		tok = strtok(NULL, ",");
 		while(tok != NULL){
-			strcpy(palavra, tok);
+			//strcpy(palavra, tok);
+
+			for(i=0; i < strlen(tok); i++){
+                tok[i] = ctolower(tok[i]);
+			}
+
 			insere_chave(lista, codigo, tok);
 			tok = strtok(NULL, ",");
 		}
@@ -74,12 +92,13 @@ int main(int argc, char const *argv[])
 {
     FILE *fp = fopen("googlebot.txt", "r");
     LISTA *lista = criar_lista();
-    int oper, codigo, relevancia;
+    int oper, codigo, relevancia, i;
     //char *palavra;
     char *palavra, *nomeSite, *link;
 
     leArquivo(fp, lista);
 
+    fclose(fp);
 //VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
 	do{
 		scanf("%d", &oper);
@@ -89,11 +108,9 @@ int main(int argc, char const *argv[])
 				scanf("%d", &codigo);
 				getchar();
 				nomeSite = lerString();
-				//scanf("%s", nomeSite);
 				scanf("%d", &relevancia);
 				getchar();
 				link = lerString();
-				//scanf("%s", link);
 				insere_site( lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
 				free(link);
 				free(nomeSite);
@@ -103,10 +120,10 @@ int main(int argc, char const *argv[])
                 scanf("%d", &codigo);
                 getchar();
                 palavra = lerString();
-                //scanf("%s", palavra);
-            printf("palavra digitada: %s\n", palavra);
-                if(insere_chave(lista, codigo, palavra))
-                    printf("sucesso ao inserir palavra chave\n");
+                for(i=0; i < strlen(palavra); i++){
+                    palavra[i] = ctolower(palavra[i]);
+                }
+                insere_chave(lista, codigo, palavra);
                 free(palavra);
 				break;
 			case 3:
@@ -125,10 +142,11 @@ int main(int argc, char const *argv[])
 				break;
 			case 6:
 			//Busca por palavra chave
-			printf("_______\n");
                 getchar();
                 palavra = lerString();
-                //scanf("%s", palavra);
+                for(i=0; i < strlen(palavra); i++){
+                    palavra[i] = ctolower(palavra[i]);
+                }
                 busca_palavra(lista, palavra);
                 free(palavra);
 				break;
@@ -136,14 +154,15 @@ int main(int argc, char const *argv[])
 			//Sugestao do site
                 getchar();
                 palavra = lerString();
+                for(i=0; i < strlen(palavra); i++){
+                    palavra[i] = ctolower(palavra[i]);
+                }
                 sugestao_site(lista, palavra);
                 free(palavra);
 				break;
             default: break;
 		}
 	}while(oper != 8);
-
-	fclose(fp);
 
 	apagar_lista(&lista);
 
