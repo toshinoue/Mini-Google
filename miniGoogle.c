@@ -25,30 +25,6 @@ struct lista{
 	//aramzenar o ultimo codigo utilizado?
 };
 
-
-/*void atribui(NO *n, NO *p){
-    NO *aux;
-
-
-
-    aux = n->anteriro->proximo;
-    n->anterior->proximo = p->anterior->proximo;
-    p->anteriror->proximo = n->anterior->proximo;
-
-    if(n->proximo == NULL){
-        p->proximo->anteior = n;
-    }
-
-    aux = n->anteriro;
-    n->anterior = p->anterior;
-    p->anteriror = n->anterior;
-
-    aux = n->anteriro;
-    n->anterior = p->anterior;
-    p->anteriror = n->anterior;
-}*/
-
-
 void insertionSort(LISTA *lista){
 	NO *i, *j, *aux;
 
