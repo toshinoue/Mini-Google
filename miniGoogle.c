@@ -25,6 +25,8 @@ struct lista{
     //aramzenar o ultimo codigo utilizado?
 };
 
+
+
 NO *copia_no(NO *p){
     NO *aux;
     int i;
@@ -32,11 +34,9 @@ NO *copia_no(NO *p){
 
     aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
 
-printf("tamanho: %d\n", tamanho_seq(p->item->palavras));
-
     for(i=0; i < tamanho_seq(p->item->palavras); i++){
         word = retorna_chave_posicao(p->item->palavras, i);
-        printf("palavra: %s, i: %d\n", word, i);
+
         if(word != NULL){
             inserir_ordenado(aux->item->palavras, word);
             free(word);
@@ -52,7 +52,7 @@ void imprime_site(NO *p){
     printf("\n");
 }
 
-void insertionSort(LISTA *lista){
+void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
     NO *i, *j, *aux;
 
     for (i = lista->cabeca->proximo->proximo; i != NULL; i = i->proximo) {
@@ -134,6 +134,7 @@ LISTA *criar_lista(){
 
 void apagar_lista(LISTA **ptr){
     if(ptr != NULL && (*ptr) != NULL){
+        atualizar_arquivo(*ptr);
 
         if(vazia(*ptr) == FALSE){
             esvazia_lista((*ptr)->cabeca->proximo);
@@ -167,10 +168,6 @@ void imprime_lista(LISTA *lista){
     if(!vazia(lista) && (lista!=NULL)){
         p = lista->cabeca->proximo;
         while(p != NULL){
-            //FALTA PALAVRAS CHAVES
-            /*printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
-            imprime_lista_seq(p->item->palavras);
-            printf("\n");*/
             imprime_site(p);
             p = p->proximo;
         }
@@ -213,7 +210,6 @@ boolean insere_site(LISTA *lista, NO *p){
             }
             return TRUE;
         } else {
-            printf("CODIGO JA EXISTE\n");
             return FALSE;
         }
     }
@@ -293,28 +289,23 @@ void sugestao_site(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
         if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-            printf("CODIGO: %d\n", p->item->codigo);
             transfere(aux, p->item->palavras);
         }
         p = p->proximo;
     }
 
-    imprime_lista_seq(aux);
-    printf("\n\n\n\n\n");
-    //imprime_lista(sugestoes);
-
     while(!listaVazia(aux)){
         char *word = remove_fim(aux);
         p = lista->cabeca->proximo;
-        printf("WORD: %s\n", word);
+
         while(p != NULL){
             if(busca_chave(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
-                printf("CODIGO: %d\n", p->item->codigo);
+
                 insere_site(sugestoes, copia_no(p));
-                printf("tentei inserir\n");
-            }else printf("NAO ENCONtREI\n");
+
+            }
             p = p->proximo;
-            //printf("CODIGO 2: %d\n", p->item->codigo);
+
         }
         free(word);
     }
@@ -325,4 +316,32 @@ void sugestao_site(LISTA *lista, char *chave){
     apagar_lista(&sugestoes);
 }
 
+boolean atualizar_arquivo(LISTA *lista){
+    FILE *fp = fopen("googlebot.txt", "w");
+    int i;
 
+    if(fp != NULL){
+        NO *p = lista->cabeca->proximo;
+
+        while(p != NULL){
+            fprintf(fp,"%.4d,%s,%d,%s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+            for(i=0; i < tamanho_seq(p->item->palavras); i++){
+                char *word = retorna_chave_posicao(p->item->palavras, i);
+                if(word != NULL){
+                    fprintf(fp,",%s", word);
+                    free(word);
+                }
+            }
+            if(p->proximo != NULL){
+                fprintf(fp, "\n");
+            }
+            p = p->proximo;
+        }
+
+        fclose(fp);
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
