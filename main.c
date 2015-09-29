@@ -91,80 +91,85 @@ void leArquivo(FILE *fp, LISTA *lista){
 int main(int argc, char const *argv[])
 {
     FILE *fp = fopen("googlebot.txt", "r");
-    LISTA *lista = criar_lista();
-    int oper, codigo, relevancia, i;
-    //char *palavra;
-    char *palavra, *nomeSite, *link;
-
-    leArquivo(fp, lista);
-
-    fclose(fp);
-//VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
-	do{
-		scanf("%d", &oper);
-		switch(oper){
-			case 1:
-			//Inserir um novo site na lista
-				scanf("%d", &codigo);
-				getchar();
-				nomeSite = lerString();
-				scanf("%d", &relevancia);
-				getchar();
-				link = lerString();
-				insere_site( lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
-				free(link);
-				free(nomeSite);
-				break;
-			case 2:
-			//Inserir palavra chave
-                scanf("%d", &codigo);
-                getchar();
-                palavra = lerString();
-                for(i=0; i < strlen(palavra); i++){
-                    palavra[i] = ctolower(palavra[i]);
-                }
-                insere_chave(lista, codigo, palavra);
-                free(palavra);
-				break;
-			case 3:
-			//Remover um site
-                scanf("%d", &codigo);
-                remove_site(lista, codigo);
-				break;
-			case 4:
-			//Atualizar relevancia
-                scanf("%d %d", &codigo, &relevancia);
-                atualiza_relevancia(lista, codigo, relevancia);
-				break;
-			case 5:
-			//Mostrar a lista
-                imprime_lista(lista);
-				break;
-			case 6:
-			//Busca por palavra chave
-                getchar();
-                palavra = lerString();
-                for(i=0; i < strlen(palavra); i++){
-                    palavra[i] = ctolower(palavra[i]);
-                }
-                busca_palavra(lista, palavra);
-                free(palavra);
-				break;
-			case 7:
-			//Sugestao do site
-                getchar();
-                palavra = lerString();
-                for(i=0; i < strlen(palavra); i++){
-                    palavra[i] = ctolower(palavra[i]);
-                }
-                sugestao_site(lista, palavra);
-                free(palavra);
-				break;
-            default: break;
-		}
-	}while(oper != 8);
-
-	apagar_lista(&lista);
+    
+    if(fp != NULL){
+	    LISTA *lista = criar_lista();
+	    int oper, codigo, relevancia, i;
+	    //char *palavra;
+	    char *palavra, *nomeSite, *link;
+	
+	    leArquivo(fp, lista);
+	
+	    fclose(fp);
+	//VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
+		do{
+			scanf("%d", &oper);
+			switch(oper){
+				case 1:
+				//Inserir um novo site na lista
+					scanf("%d", &codigo);
+					getchar();
+					nomeSite = lerString();
+					scanf("%d", &relevancia);
+					getchar();
+					link = lerString();
+					insere_site( lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
+					free(link);
+					free(nomeSite);
+					break;
+				case 2:
+				//Inserir palavra chave
+	                scanf("%d", &codigo);
+	                getchar();
+	                palavra = lerString();
+	                for(i=0; i < strlen(palavra); i++){
+	                    palavra[i] = ctolower(palavra[i]);
+	                }
+	                insere_chave(lista, codigo, palavra);
+	                free(palavra);
+					break;
+				case 3:
+				//Remover um site
+	                scanf("%d", &codigo);
+	                remove_site(lista, codigo);
+					break;
+				case 4:
+				//Atualizar relevancia
+	                scanf("%d %d", &codigo, &relevancia);
+	                atualiza_relevancia(lista, codigo, relevancia);
+					break;
+				case 5:
+				//Mostrar a lista
+	                imprime_lista(lista);
+					break;
+				case 6:
+				//Busca por palavra chave
+	                getchar();
+	                palavra = lerString();
+	                for(i=0; i < strlen(palavra); i++){
+	                    palavra[i] = ctolower(palavra[i]);
+	                }
+	                busca_palavra(lista, palavra);
+	                free(palavra);
+					break;
+				case 7:
+				//Sugestao do site
+	                getchar();
+	                palavra = lerString();
+	                for(i=0; i < strlen(palavra); i++){
+	                    palavra[i] = ctolower(palavra[i]);
+	                }
+	                sugestao_site(lista, palavra);
+	                free(palavra);
+					break;
+	            default: break;
+			}
+		}while(oper != 8);
+	
+		apagar_lista(&lista);
+    } else {
+    	printf("Could not open googlebot.txt\n");
+    }
 
 	return 0;
 }
