@@ -58,12 +58,12 @@ void leArquivo(FILE *fp, LISTA *lista){
 		tok = strtok(NULL, ",");
 		strcpy(link, tok);
 
-        insere_site(lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
+        //insere_site(lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
 
 		tok = strtok(NULL, ",");
 		while(tok != NULL){
 			strcpy(palavra, tok);
-			insere_chave(lista, codigo, tok);
+			//insere_chave(lista, codigo, tok);
 			tok = strtok(NULL, ",");
 		}
 		printf("\n");
@@ -75,7 +75,7 @@ void leArquivo(FILE *fp, LISTA *lista){
 int main(int argc, char const *argv[])
 {
     FILE *fp = fopen("googlebot.txt", "r");
-    LISTA *lista;
+    LISTA *lista = criar_lista();
 
     leArquivo(fp, lista);
 
