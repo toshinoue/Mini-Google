@@ -29,7 +29,7 @@ boolean remove_site(LISTA *lista, int codigo);
 
 void atualiza_relevancia(LISTA *lista, int codigo, int relevancia);
 
-void busca_chave(LISTA *lista, char *chave);
+void busca_palavra(LISTA *lista, char *chave);
 void sugestao_site(LISTA *lista, char *chave);
 
 
