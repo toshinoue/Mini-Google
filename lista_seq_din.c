@@ -4,7 +4,7 @@
 #include <string.h>
 
 struct item_seq{
-    CHAVE chave[51];
+    CHAVE chave[TAM_PALAVRA];
 };
 
 struct lista_seq{
@@ -51,7 +51,7 @@ void liberar_lista(LISTA_SEQ **lista){
 }
 
 void inserir_ordenado(LISTA_SEQ *lista, CHAVE *chave){
-    if(lista != NULL && strlen(chave) <= 50){
+    if(lista != NULL && strlen(chave) <= TAM_PALAVRA-1){
         lista->tamanho++;
         strcpy(lista->array[lista->tamanho-1].chave, chave);
 
@@ -76,7 +76,7 @@ void imprime_lista_seq(LISTA_SEQ *lista){
         }
     }
 }
-/*
+
 int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     int i;
     for(i = 0; i < lista->tamanho; i++){
@@ -88,4 +88,4 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     //return FALSE;
     return 0;
 }
-*/
+

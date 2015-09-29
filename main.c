@@ -1,7 +1,7 @@
-#include "lista_seq_din.h"
 #include "miniGoogle.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 //assumindo que o arquivo googlebot.txt esta ordenado pelo codigo
@@ -20,32 +20,81 @@ char *lerString(){
     string[cont-2] = '\0';
 
     return string;
+}
 
+
+void leArquivo(FILE *fp, LISTA *lista){
+	int codigo, relevancia;
+	char nomeSite[TAM], link[N], palavra[TAM]/*gambiarra '-'*/;
+
+
+	char carac;
+	char *tok;
+
+	while(!feof(fp)){
+
+		int count = 0;
+		char *arq = NULL;
+
+		fscanf(fp, "%c", &carac);
+		while(!feof(fp) && carac != '\n'){
+			arq = (char *)realloc(arq, sizeof(char) * (count+1));
+			arq[count++] = carac;
+			fscanf(fp, "%c", &carac);
+		}
+
+		arq = (char *)realloc(arq, sizeof(char) * (count+1));
+		arq[count] = '\0';
+
+		tok = strtok(arq, ",");
+		codigo = atoi(tok);
+
+		tok = strtok(NULL, ",");
+		strcpy(nomeSite, tok);
+
+		tok = strtok(NULL, ",");
+		relevancia = atoi(tok);
+
+		tok = strtok(NULL, ",");
+		strcpy(link, tok);
+
+        insere_site(lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
+
+		tok = strtok(NULL, ",");
+		while(tok != NULL){
+			strcpy(palavra, tok);
+			insere_chave(lista, codigo, tok);
+			tok = strtok(NULL, ",");
+		}
+		printf("\n");
+		free(arq);
+	}
 }
 
 
 int main(int argc, char const *argv[])
 {
-    //LISTA_SEQ palavras;
-    LISTA * teste;
+    FILE *fp = fopen("googlebot.txt", "r");
+    LISTA *lista;
 
-	/*FILE *fp = fopen("googlebot.txt", "r");
-	char *lista = NULL;
-	char fileElement;
-	int count = 0;
-	fscanf(fp, "%c", &fileElement);
-	while(!feof(fp)){
-		lista = (char *)realloc(lista, sizeof(char) * (count+1));
-		lista[count++] = fileElement;
-		fscanf(fp, "%c", &fileElement);
-	}
-	printf("%s\n", lista);
-	int oper; //pelo
+    leArquivo(fp, lista);
+
+    imprime_lista(lista);
+
+    liberar_lista(lista);
+
+	/*int oper, codigo;
+
 	do{
 		scanf("%d", &oper);
 		switch(oper){
 			case 1:
 			//Inserir um novo site na lista
+				scanf("%d", &codigo);
+				nomeSite = lerString();
+				n->item->codigo = codigo;
+				strcpy(n->item->nomeSite, nomeSite);
+				insere_site(lista, n);
 				break;
 			case 2:
 			//Inserir palavra chave
@@ -66,10 +115,11 @@ int main(int argc, char const *argv[])
 			//Sugestao do site
 				break;
 		}
-	}while(oper != 8);
-	fclose(fp);*/
+	}while(oper != 8);*/
 
-	teste = criar_lista();
+	fclose(fp);
+
+	/*teste = criar_lista();
 	insere_site(teste, criar_no(criar_item(-1, "kleber", -1, "kleber.jp")));
 	insere_site(teste, criar_no(criar_item(0, "henrique", 10, "henrique.jp")));
 
@@ -120,7 +170,7 @@ printf("\n\n");
     atualiza_relevancia(teste, 10, 1);
     imprime_lista(teste);
 
-	apagar_lista(&teste);
+	apagar_lista(&teste);*/
 
 	return 0;
 }
