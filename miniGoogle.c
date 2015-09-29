@@ -25,6 +25,14 @@ struct lista{
     //aramzenar o ultimo codigo utilizado?
 };
 
+NO *copia_no(NO *p){
+    NO *aux;
+
+    aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
+
+    return aux;
+}
+
 void imprime_site(NO *p){
     printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
     imprime_lista_seq(p->item->palavras);
@@ -208,7 +216,11 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
             if(aux == NULL){
                 return FALSE;
             }
-            inserir_ordenado(aux->item->palavras, chave);
+            if(tamanho_seq(aux->item->palavras) < 10){
+                inserir_ordenado(aux->item->palavras, chave);
+            } else {
+                printf("ERRO: Numero max de 10 palavras ja atingido! Palavra nao foi inserida.\n");
+            }
         }
     } else {
         return FALSE;
@@ -268,23 +280,36 @@ void sugestao_site(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
         if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
+            printf("CODIGO: %d\n", p->item->codigo);
             transfere(aux, p->item->palavras);
         }
         p = p->proximo;
     }
 
-    /*while(!vazia(aux)){
-        char *word = remove_final(aux);
+    imprime_lista_seq(aux);
+    printf("\n\n\n\n\n");
+    //imprime_lista(sugestoes);
+
+    while(!listaVazia(aux)){
+        char *word = remove_fim(aux);
         p = lista->cabeca->proximo;
+        printf("WORD: %s\n", word);
         while(p != NULL){
-            if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-                insere_site(sugestoes, p);
-            }
+            if(busca_chave(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
+                printf("CODIGO: %d\n", p->item->codigo);
+                insere_site(sugestoes, copia_no(p));
+                printf("tentei inserir\n");
+            }else printf("NAO ENCONtREI\n");
             p = p->proximo;
+            //printf("CODIGO 2: %d\n", p->item->codigo);
         }
-    }*/
+        free(word);
+    }
 
     imprime_lista(sugestoes);
+
+    liberar_lista(&aux);
+    apagar_lista(&sugestoes);
 }
 
 
