@@ -253,7 +253,7 @@ void atualiza_relevancia(LISTA *lista, int code, int relevancia){
 void busca_palavra(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
-        if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras))){
+        if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
             imprime_site(p);
         }
         p = p->proximo;
