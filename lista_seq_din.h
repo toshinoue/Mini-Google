@@ -20,4 +20,6 @@ void imprime_lista_seq(LISTA_SEQ *lista);
 
 int busca_chave(LISTA_SEQ *lista, CHAVE *chave);
 
+int tamanho_seq(LISTA_SEQ *lista);
+
 #endif // LISTA_ESTATICA_H
