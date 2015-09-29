@@ -77,7 +77,19 @@ void imprime_lista_seq(LISTA_SEQ *lista){
     }
 }
 
-int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
+int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim){
+    if(ini < fim){
+
+    int centro = (int)((fim-ini)/ 2.0);
+        
+    if(strcmp(lista->array[centro].chave, chave) == 0) return 1;
+    if(strcmp(lista->array[centro].chave, chave) > 0) return busca_chave(lista, chave, centro+1, fim);
+    else return busca_chave(lista, chave, ini, centro-1);
+    }
+
+    return 0;
+
+    /*
     int i;
     for(i = 0; i < lista->tamanho; i++){
         if(strcmp(lista->array[i].chave, chave) == 0){
@@ -87,6 +99,7 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     }
     //return FALSE;
     return 0;
+    */
 }
 
 int tamanho_seq(LISTA_SEQ *lista){
