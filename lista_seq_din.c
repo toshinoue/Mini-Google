@@ -71,6 +71,16 @@ int listaVazia(LISTA_SEQ *lista){
     }
 }
 
+void imprime_lista_seq(LISTA_SEQ *lista){
+    int i;
+    if(lista != NULL){
+        //printf("\n\ntamanho: %d\n\n", lista->tamanho);
+        for(i=0; i < lista->tamanho; i++){
+            printf(", %s", lista->array[i].chave);
+        }
+    }
+}
+
 int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     int i;
     for(i = 0; i < lista->tamanho; i++){
