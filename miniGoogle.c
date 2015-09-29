@@ -27,8 +27,21 @@ struct lista{
 
 NO *copia_no(NO *p){
     NO *aux;
+    int i;
+    char *word;
 
     aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
+
+printf("tamanho: %d\n", tamanho_seq(p->item->palavras));
+
+    for(i=0; i < tamanho_seq(p->item->palavras); i++){
+        word = retorna_chave_posicao(p->item->palavras, i);
+        printf("palavra: %s, i: %d\n", word, i);
+        if(word != NULL){
+            inserir_ordenado(aux->item->palavras, word);
+            free(word);
+        }
+    }
 
     return aux;
 }
