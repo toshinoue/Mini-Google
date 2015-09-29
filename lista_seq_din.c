@@ -23,9 +23,9 @@ void troca(ITEM_SEQ *array, int i, int j){
 }
 
 void insertion_sort(LISTA_SEQ *lista){
-        int i, j;
+    int i, j;
 
-	if(lista != NULL && lista->array != NULL){
+	if(lista != NULL && lista->tamanho > 0){
 		for (i = 1; i < lista->tamanho; i++) {
 			j = i;
 			while (j > 0 && strcmp(lista->array[j-1].chave, lista->array[j].chave) > 0 ) {
@@ -36,12 +36,10 @@ void insertion_sort(LISTA_SEQ *lista){
 	}
 }
 
-
 LISTA_SEQ *criar_lista_seq(){
     LISTA_SEQ *lista = (LISTA_SEQ*)malloc(sizeof(LISTA_SEQ));
     if(lista != NULL){
         lista->tamanho = 0;
-        lista->array = NULL;    
     }
 
     return lista;
@@ -50,13 +48,11 @@ LISTA_SEQ *criar_lista_seq(){
 void liberar_lista(LISTA_SEQ **lista){
         free(*lista);
         (*lista) = NULL;
-    }
 }
 
 void inserir_ordenado(LISTA_SEQ *lista, CHAVE *chave){
     if(lista != NULL && strlen(chave) <= 50){
         lista->tamanho++;
-        lista->array = (ITEM_SEQ*)realloc(lista->array, sizeof(ITEM_SEQ)*lista->tamanho);
         strcpy(lista->array[lista->tamanho-1].chave, chave);
 
         insertion_sort(lista);
@@ -80,7 +76,7 @@ void imprime_lista_seq(LISTA_SEQ *lista){
         }
     }
 }
-
+/*
 int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     int i;
     for(i = 0; i < lista->tamanho; i++){
@@ -92,3 +88,4 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     //return FALSE;
     return 0;
 }
+*/
