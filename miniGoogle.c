@@ -5,24 +5,24 @@
 #include "miniGoogle.h"
 
 struct tipo_item{
-	int codigo;
-	char nomeSite[TAM];
-	int relevancia;
-	char link[N];
-	LISTA_SEQ *palavras;
+    int codigo;
+    char nomeSite[TAM];
+    int relevancia;
+    char link[N];
+    LISTA_SEQ *palavras;
 };
 
 struct node{
-	ITEM *item;
-	struct node *anterior;
-	struct node *proximo;
+    ITEM *item;
+    struct node *anterior;
+    struct node *proximo;
 };
 
 struct lista{
-	NO *cabeca;
-	NO *fim;
-	int tamanho;
-	//aramzenar o ultimo codigo utilizado?
+    NO *cabeca;
+    NO *fim;
+    int tamanho;
+    //aramzenar o ultimo codigo utilizado?
 };
 
 void imprime_site(NO *p){
@@ -32,17 +32,17 @@ void imprime_site(NO *p){
 }
 
 void insertionSort(LISTA *lista){
-	NO *i, *j, *aux;
+    NO *i, *j, *aux;
 
-	for (i = lista->cabeca->proximo->proximo; i != NULL; i = i->proximo) {
-		ITEM *chave = i->item;
-		j = i->anterior;
-		while (j != lista->cabeca && j->item->relevancia < chave->relevancia) {
+    for (i = lista->cabeca->proximo->proximo; i != NULL; i = i->proximo) {
+        ITEM *chave = i->item;
+        j = i->anterior;
+        while (j != lista->cabeca && j->item->relevancia < chave->relevancia) {
             j->proximo->item = j->item;
-			j = j->anterior;
-		}
-		j->proximo->item = chave;
-	}
+            j = j->anterior;
+        }
+        j->proximo->item = chave;
+    }
 }
 
 void apaga_no(NO **ptr){
@@ -54,14 +54,14 @@ void apaga_no(NO **ptr){
 
 //mudar nome??? -> busca_codigo
 NO *existe_codigo(LISTA *lista, int code){
-	NO *p = lista->cabeca->proximo;
+    NO *p = lista->cabeca->proximo;
 
-	while(p != NULL && p->item->codigo != code){
-		p = p->proximo;
-	}
-	if(p != NULL){
-		return p;
-	}else return NULL;
+    while(p != NULL && p->item->codigo != code){
+        p = p->proximo;
+    }
+    if(p != NULL){
+        return p;
+    }else return NULL;
 }
 
 //se o site for novo (nao foi lido do txt), o codigo sera igual a -1
@@ -95,19 +95,19 @@ NO *criar_no(ITEM *item){
 }
 
 LISTA *criar_lista(){
-	LISTA *lista = (LISTA *)malloc(sizeof(LISTA));
+    LISTA *lista = (LISTA *)malloc(sizeof(LISTA));
 
-	if(lista != NULL){
-		lista->cabeca = (NO*)malloc(sizeof(NO));
-		if(lista->cabeca == NULL)
+    if(lista != NULL){
+        lista->cabeca = (NO*)malloc(sizeof(NO));
+        if(lista->cabeca == NULL)
             return NULL;
         lista->cabeca->proximo = NULL;
-		lista->fim = NULL;
-		lista->tamanho = 0;
-		return lista;
-	}
+        lista->fim = NULL;
+        lista->tamanho = 0;
+        return lista;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 
@@ -131,10 +131,10 @@ void esvazia_lista(NO *ptr){
 }
 
 boolean vazia(LISTA *lista){
-	if(lista->cabeca->proximo == NULL)
-		return(TRUE);
+    if(lista->cabeca->proximo == NULL)
+        return(TRUE);
 
-	return(FALSE);
+    return(FALSE);
 }
 
 int tamanho(LISTA *lista){
@@ -142,8 +142,8 @@ int tamanho(LISTA *lista){
 }
 
 void imprime_lista(LISTA *lista){
-	NO *p;
-	if(!vazia(lista) && (lista!=NULL)){
+    NO *p;
+    if(!vazia(lista) && (lista!=NULL)){
         p = lista->cabeca->proximo;
         while(p != NULL){
             //FALTA PALAVRAS CHAVES
@@ -153,7 +153,7 @@ void imprime_lista(LISTA *lista){
             imprime_site(p);
             p = p->proximo;
         }
-	}
+    }
 }
 
 //inserir no final e chamar funcao de ordenacao
@@ -201,7 +201,7 @@ boolean insere_site(LISTA *lista, NO *p){
 
 boolean insere_chave(LISTA *lista, int codigo, char *chave){
 
-	if(lista != NULL && chave != NULL){
+    if(lista != NULL && chave != NULL){
         if(!vazia(lista)){
             NO *aux = existe_codigo(lista, codigo);
 
@@ -210,11 +210,11 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
             }
             inserir_ordenado(aux->item->palavras, chave);
         }
-	} else {
+    } else {
         return FALSE;
-	}
+    }
 
-	return TRUE;
+    return TRUE;
 }
 
 boolean remove_site(LISTA *lista, int codigo) {
@@ -241,22 +241,24 @@ boolean remove_site(LISTA *lista, int codigo) {
 }
 
 void atualiza_relevancia(LISTA *lista, int code, int relevancia){
-	NO *p = existe_codigo(lista, code);
-	if(p != NULL){
-		p->item->relevancia = relevancia; //TEM QUE ORDENAR ESSA BAGAÇA
-	}
-	insertionSort(lista);
+    NO *p = existe_codigo(lista, code);
+    if(p != NULL){
+        p->item->relevancia = relevancia; //TEM QUE ORDENAR ESSA BAGAÇA
+    }
+    insertionSort(lista);
 }
+
+
 
 void busca_palavra(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
-
     while(p != NULL){
-        if(busca_chave(p->item->palavras, chave)){
+        if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras))){
             imprime_site(p);
         }
         p = p->proximo;
     }
+
 }
 
 void sugestao_site(LISTA *lista, char *chave);
