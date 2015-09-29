@@ -125,6 +125,7 @@ int main(int argc, char const *argv[])
 				break;
 			case 6:
 			//Busca por palavra chave
+			printf("_______\n");
                 getchar();
                 palavra = lerString();
                 //scanf("%s", palavra);
@@ -133,6 +134,10 @@ int main(int argc, char const *argv[])
 				break;
 			case 7:
 			//Sugestao do site
+                getchar();
+                palavra = lerString();
+                sugestao_site(lista, palavra);
+                free(palavra);
 				break;
             default: break;
 		}
