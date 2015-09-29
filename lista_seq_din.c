@@ -8,7 +8,8 @@ struct item_seq{
 };
 
 struct lista_seq{
-    ITEM_SEQ array[10];
+    //ITEM_SEQ array[10];
+    ITEM_SEQ *array;
     int tamanho;
 };
 
@@ -40,19 +41,27 @@ LISTA_SEQ *criar_lista_seq(){
     LISTA_SEQ *lista = (LISTA_SEQ*)malloc(sizeof(LISTA_SEQ));
     if(lista != NULL){
         lista->tamanho = 0;
+        lista->array = NULL;
     }
 
     return lista;
 }
 
 void liberar_lista(LISTA_SEQ **lista){
+    if(lista != NULL && (*lista) != NULL){
+        if((*lista)->array != NULL){
+            free((*lista)->array);
+            (*lista)->array = NULL;
+        }
         free(*lista);
         (*lista) = NULL;
+    }
 }
 
 void inserir_ordenado(LISTA_SEQ *lista, CHAVE *chave){
     if(lista != NULL && strlen(chave) <= TAM_PALAVRA-1){
         lista->tamanho++;
+        lista->array = (ITEM_SEQ*)realloc(lista->array, sizeof(ITEM_SEQ)*lista->tamanho);
         strcpy(lista->array[lista->tamanho-1].chave, chave);
 
         insertion_sort(lista);
@@ -89,21 +98,14 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim){
     }
 
     return 0;
-
-    /*
-    int i;
-    for(i = 0; i < lista->tamanho; i++){
-        if(strcmp(lista->array[i].chave, chave) == 0){
-            //return TRUE;
-            return 1;
-        }
-    }
-    //return FALSE;
-    return 0;
-    */
 }
 
 int tamanho_seq(LISTA_SEQ *lista){
     return (lista->tamanho);
 }
 
+int transfere(LISTA_SEQ *lista, LISTA_SEQ *secundaria){
+    int i;
+
+    //for(i = 0; i < secundaria->tamanho)
+}
