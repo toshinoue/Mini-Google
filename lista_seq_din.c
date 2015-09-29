@@ -129,3 +129,12 @@ CHAVE *remove_fim(LISTA_SEQ *lista){
     lista->array = (ITEM_SEQ*)realloc(lista->array, sizeof(ITEM_SEQ)*lista->tamanho);
     return ret;
 }
+
+CHAVE *retorna_chave_posicao(LISTA_SEQ *lista, int pos){
+    if(pos < lista->tamanho && pos >= 0){
+        CHAVE *ret = (char *)malloc(sizeof(char) * strlen(lista->array[pos].chave)+1);
+        strcpy(ret, lista->array[pos].chave);
+        return ret;
+    }
+    return NULL;
+}
