@@ -14,26 +14,26 @@ struct lista_seq{
 
 
 void troca(ITEM_SEQ *array, int i, int j){
-	CHAVE aux[51];
-	if(array != NULL){
-		strcpy(aux, array[i].chave);
-		strcpy(array[i].chave, array[j].chave);
-		strcpy(array[j].chave, aux);
-	}
+    CHAVE aux[51];
+    if(array != NULL){
+        strcpy(aux, array[i].chave);
+        strcpy(array[i].chave, array[j].chave);
+        strcpy(array[j].chave, aux);
+    }
 }
 
 void insertion_sort(LISTA_SEQ *lista){
     int i, j;
 
-	if(lista != NULL && lista->tamanho > 0){
-		for (i = 1; i < lista->tamanho; i++) {
-			j = i;
-			while (j > 0 && strcmp(lista->array[j-1].chave, lista->array[j].chave) > 0 ) {
-				troca(lista->array, j, j-1);
-				j--;
-			}
-		}
-	}
+    if(lista != NULL && lista->tamanho > 0){
+        for (i = 1; i < lista->tamanho; i++) {
+            j = i;
+            while (j > 0 && strcmp(lista->array[j-1].chave, lista->array[j].chave) > 0 ) {
+                troca(lista->array, j, j-1);
+                j--;
+            }
+        }
+    }
 }
 
 LISTA_SEQ *criar_lista_seq(){
@@ -87,5 +87,9 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave){
     }
     //return FALSE;
     return 0;
+}
+
+int tamanho_seq(LISTA_SEQ *lista){
+    return (lista->tamanho);
 }
 
