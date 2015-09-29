@@ -26,4 +26,6 @@ int transfere(LISTA_SEQ *lista, LISTA_SEQ *secundaria);
 
 CHAVE *remove_fim(LISTA_SEQ *lista);
 
+CHAVE *retorna_chave_posicao(LISTA_SEQ *lista, int pos);
+
 #endif // LISTA_ESTATICA_H
