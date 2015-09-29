@@ -69,7 +69,7 @@ void inserir_ordenado(LISTA_SEQ *lista, CHAVE *chave){
 }
 
 int listaVazia(LISTA_SEQ *lista){
-    if(lista != NULL && lista->tamanho > 0){
+    if(lista != NULL && lista->array != NULL && lista->tamanho > 0){
         return 0;
     } else {
         return 1;
@@ -87,16 +87,20 @@ void imprime_lista_seq(LISTA_SEQ *lista){
 }
 
 int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim){
-    if(ini <= fim){
+    if(!listaVazia(lista)){
+        if(ini <= fim){
+            int centro = (int)((fim+ini)/ 2.0);
 
-        int centro = (int)((fim+ini)/ 2.0);
+            printf("inicio: %d... fim: %d\n", ini, fim);
 
-
-        if(strcmp(lista->array[centro].chave, chave) == 0) return 1;
-        if(strcmp(lista->array[centro].chave, chave) < 0) return busca_chave(lista, chave, centro+1, fim);
-        else return busca_chave(lista, chave, ini, centro-1);
+            if(strcmp(lista->array[centro].chave, chave) == 0) {
+                printf("ENCONTREI\n");
+                return 1;
+            }
+            if(strcmp(lista->array[centro].chave, chave) < 0) return busca_chave(lista, chave, centro+1, fim);
+            else return busca_chave(lista, chave, ini, centro-1);
+        }
     }
-
     return 0;
 }
 
@@ -107,5 +111,21 @@ int tamanho_seq(LISTA_SEQ *lista){
 int transfere(LISTA_SEQ *lista, LISTA_SEQ *secundaria){
     int i;
 
-    //for(i = 0; i < secundaria->tamanho)
+    if(secundaria != NULL && lista != NULL){
+        for(i = 0; i < secundaria->tamanho; i++){
+            if(listaVazia(lista) || !(busca_chave(lista, secundaria->array[i].chave, 0, lista->tamanho-1))){
+                inserir_ordenado(lista, secundaria->array[i].chave);
+            }
+        }
+        return 1;
+    }
+    return 0;
+}
+
+CHAVE *remove_fim(LISTA_SEQ *lista){
+    CHAVE *ret = (char *)malloc(sizeof(char) * strlen(lista->array[lista->tamanho - 1].chave)+1);
+    lista->tamanho--;
+    strcpy(ret, lista->array[lista->tamanho].chave);
+    lista->array = (ITEM_SEQ*)realloc(lista->array, sizeof(ITEM_SEQ)*lista->tamanho);
+    return ret;
 }
