@@ -18,7 +18,7 @@ int listaVazia(LISTA_SEQ *lista);
 
 void imprime_lista_seq(LISTA_SEQ *lista);
 
-int busca_chave(LISTA_SEQ *lista, CHAVE *chave);
+int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim);
 
 int tamanho_seq(LISTA_SEQ *lista);
 
