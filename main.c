@@ -75,19 +75,14 @@ int main(int argc, char const *argv[])
 {
     FILE *fp = fopen("googlebot.txt", "r");
     LISTA *lista = criar_lista();
+    int oper, codigo, relevancia;
+    //char *palavra;
+    char palavra[TAM], nomeSite[TAM], link[N];
 
     leArquivo(fp, lista);
 
-    imprime_lista(lista);
-
     printf("\n\n\n\n\n");
 
-    busca_palavra(lista, "trabalho");
-
-
-    liberar_lista(lista);
-
-	/*int oper, codigo;
 
 	do{
 		scanf("%d", &oper);
@@ -95,31 +90,51 @@ int main(int argc, char const *argv[])
 			case 1:
 			//Inserir um novo site na lista
 				scanf("%d", &codigo);
-				nomeSite = lerString();
-				n->item->codigo = codigo;
-				strcpy(n->item->nomeSite, nomeSite);
-				insere_site(lista, n);
+				getchar();
+				//nomeSite = lerString();
+				scanf("%s", nomeSite);
+				scanf("%d", &relevancia);
+				getchar();
+				//link = lerString();
+				scanf("%s", link);
+				insere_site( lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
 				break;
 			case 2:
 			//Inserir palavra chave
+                scanf("%d", &codigo);
+                getchar();
+                //palavra = lerString();
+                scanf("%s", palavra);
+                insere_chave(lista, codigo, palavra);
 				break;
 			case 3:
 			//Remover um site
+                scanf("%d", &codigo);
+                remove_site(lista, codigo);
 				break;
 			case 4:
 			//Atualizar relevancia
+                scanf("%d %d", &codigo, &relevancia);
+                atualiza_relevancia(lista, codigo, relevancia);
 				break;
 			case 5:
 			//Mostrar a lista
+                imprime_lista(lista);
 				break;
 			case 6:
 			//Busca por palavra chave
+                getchar();
+                //palavra = lerString();
+                scanf("%s", palavra);
+                busca_palavra(lista, palavra);
+                //free(palavra);
 				break;
 			case 7:
 			//Sugestao do site
 				break;
+            default: break;
 		}
-	}while(oper != 8);*/
+	}while(oper != 8);
 
 	fclose(fp);
 
@@ -172,9 +187,9 @@ printf("\n\n");
 printf("\n\n");
 
     atualiza_relevancia(teste, 10, 1);
-    imprime_lista(teste);
+    imprime_lista(teste);*/
 
-	apagar_lista(&teste);*/
+	apagar_lista(&lista);
 
 	return 0;
 }
