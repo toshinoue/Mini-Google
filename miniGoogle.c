@@ -25,8 +25,42 @@ struct lista{
 	//aramzenar o ultimo codigo utilizado?
 };
 
-int geraCodigo(LISTA *lista){
-    return -1;
+
+/*void atribui(NO *n, NO *p){
+    NO *aux;
+
+
+
+    aux = n->anteriro->proximo;
+    n->anterior->proximo = p->anterior->proximo;
+    p->anteriror->proximo = n->anterior->proximo;
+
+    if(n->proximo == NULL){
+        p->proximo->anteior = n;
+    }
+
+    aux = n->anteriro;
+    n->anterior = p->anterior;
+    p->anteriror = n->anterior;
+
+    aux = n->anteriro;
+    n->anterior = p->anterior;
+    p->anteriror = n->anterior;
+}*/
+
+
+void insertionSort(LISTA *lista){
+	NO *i, *j, *aux;
+
+	for (i = lista->cabeca->proximo->proximo; i != NULL; i = i->proximo) {
+		ITEM *chave = i->item;
+		j = i->anterior;
+		while (j != lista->cabeca && j->item->relevancia < chave->relevancia) {
+            j->proximo->item = j->item;
+			j = j->anterior;
+		}
+		j->proximo->item = chave;
+	}
 }
 
 void apaga_no(NO **ptr){
@@ -139,12 +173,9 @@ void imprime_lista(LISTA *lista){
 	}
 }
 
-
+//inserir no final e chamar funcao de ordenacao
 boolean insere_site(LISTA *lista, NO *p){
     if(lista != NULL && p != NULL){
-        /*if(p->item->codigo == -1){
-            p->item->codigo = geraCodigo(lista);
-        }*/
         if((existe_codigo(lista, p->item->codigo)) == NULL){
             if(vazia(lista)){
                 lista->cabeca->proximo = p;
@@ -177,8 +208,10 @@ boolean insere_site(LISTA *lista, NO *p){
                 lista->tamanho++;
             }
             return TRUE;
+        } else {
+            printf("CODIGO JA EXISTE\n");
+            return FALSE;
         }
-        else return FALSE;
     }
     return FALSE;
 }
@@ -201,36 +234,35 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
 	return TRUE;
 }
 
-boolean remove_site(LISTA *lista, int codigo){
-	/*int code;
-	scanf("%d", &code);
-	if(existe_codigo(lista, code)){
-        NO *p = lista->inicio;
-		while(p->item->codigo != code) p = p->proximo;
-		if(p == lista->inicio){
-		    lista->inicio = p->proximo;
-      		p->anterior = NULL;
-		}
-	    else if(p->proximo == NULL){
-			p->anterior->proximo = NULL;
-			lista->fim = p->anterior;
-    	}
-        else{
-			p->proximo->anterior = p->anterior;
-			p->anterior->proximo = p->proximo;
-			p->proximo = NULL;
-			p->anterior = NULL;
-    	}
-		return TRUE;
-	}
-	else */return FALSE;
+boolean remove_site(LISTA *lista, int codigo) {
+    if (!vazia(lista)) {
+        NO *p = lista->cabeca->proximo;
+
+        while(p != NULL && p->item->codigo != codigo)
+            p = p->proximo;
+
+        if(p != NULL){
+            p->anterior->proximo = p->proximo;
+
+            if(p != lista->fim)
+                p->proximo->anterior = p->anterior;
+            else
+                lista->fim = p->anterior;
+
+            lista->tamanho--;
+            apaga_no(&p);
+            return (TRUE);
+        }
+    }
+    return (FALSE);
 }
 
-void atualiza_relevancia(LISTA *lista, int code){
+void atualiza_relevancia(LISTA *lista, int code, int relevancia){
 	NO *p = existe_codigo(lista, code);
 	if(p != NULL){
-		p->item->relevancia++; //TEM QUE ORDENAR ESSA BAGAÇA
+		p->item->relevancia = relevancia; //TEM QUE ORDENAR ESSA BAGAÇA
 	}
+	insertionSort(lista);
 }
 
 void busca_chave(LISTA *lista, char *chave);

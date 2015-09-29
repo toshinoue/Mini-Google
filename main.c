@@ -111,6 +111,14 @@ int main(int argc, char const *argv[])
 
 
 	imprime_lista(teste);
+printf("\n\n");
+	remove_site(teste, 543);
+
+	imprime_lista(teste);
+printf("\n\n");
+
+    atualiza_relevancia(teste, 10, 1);
+    imprime_lista(teste);
 
 	apagar_lista(&teste);
 

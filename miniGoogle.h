@@ -27,7 +27,7 @@ boolean insere_site(LISTA *lista, NO *p);
 boolean insere_chave(LISTA *lista, int codigo, char *chave);
 boolean remove_site(LISTA *lista, int codigo);
 
-void atualiza_relevancia(LISTA *lista, int codigo);
+void atualiza_relevancia(LISTA *lista, int codigo, int relevancia);
 
 void busca_chave(LISTA *lista, char *chave);
 void sugestao_site(LISTA *lista, char *chave);
