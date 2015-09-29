@@ -14,6 +14,7 @@ struct lista_seq{
 };
 
 
+
 void troca(ITEM_SEQ *array, int i, int j){
     CHAVE aux[51];
     if(array != NULL){
@@ -79,7 +80,6 @@ int listaVazia(LISTA_SEQ *lista){
 void imprime_lista_seq(LISTA_SEQ *lista){
     int i;
     if(lista != NULL){
-        //printf("\n\ntamanho: %d\n\n", lista->tamanho);
         for(i=0; i < lista->tamanho; i++){
             printf(", %s", lista->array[i].chave);
         }
@@ -91,10 +91,7 @@ int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim){
         if(ini <= fim){
             int centro = (int)((fim+ini)/ 2.0);
 
-            printf("inicio: %d... fim: %d\n", ini, fim);
-
             if(strcmp(lista->array[centro].chave, chave) == 0) {
-                printf("ENCONTREI\n");
                 return 1;
             }
             if(strcmp(lista->array[centro].chave, chave) < 0) return busca_chave(lista, chave, centro+1, fim);
