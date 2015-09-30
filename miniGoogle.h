@@ -73,7 +73,8 @@ int tamanho(LISTA *lista);
 */
 void imprime_lista(LISTA *lista);
 
-/* insere_site() - Funcao que insere um NO na lista e libera o NO dado, retornando TRUE ou FALSE
+/* insere_site() - Funcao que insere um NO na lista ordenado baseado na relevancia e, em caso de empate, no codigo.
+		O NO dado eh liberado caso nao seja possivel inserir na lista, retornando TRUE ou FALSE
 	Parametros:
 		LISTA **ptr - ponteiro para um ponteiro de LISTA
 		NO *p - ponteiro para um NO
@@ -104,7 +105,7 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave);
 boolean remove_site(LISTA *lista, int codigo);
 
 /* atualiza_relevancia() - Dado um codigo, a funcao verifica se o codigo existe e atualiza a relevancia do ITEM,
-		retirando o NO e o inserindo ordenado com a relevancia nova
+		e reordena a lista baseado na relevancia e, em caso de empate, no codigo
 	Parametros:
 		LISTA *lista - ponteiro para lista de sites
 		int codigo - codigo do site
