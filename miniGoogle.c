@@ -25,6 +25,58 @@ struct lista{
     //aramzenar o ultimo codigo utilizado?
 };
 
+boolean atualizar_arquivo(LISTA *lista){
+    FILE *fp = fopen("googlebot.txt", "w");
+    int i;
+
+    if(fp != NULL){
+        NO *p = lista->cabeca->proximo;
+
+/*//=======
+
+            }
+            p = p->proximo;
+
+        }
+        free(word);
+    }
+
+    imprime_lista(sugestoes);
+
+    liberar_lista(&aux);
+    apagar_lista(&sugestoes);
+}
+
+boolean atualizar_arquivo(LISTA *lista){
+    FILE *fp = fopen("googlebot.txt", "w");
+    int i;
+
+    if(fp != NULL){
+        NO *p = lista->cabeca->proximo;
+
+//>>>>>>> origin/master*/
+        while(p != NULL){
+            fprintf(fp,"%.4d,%s,%d,%s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+            for(i=0; i < tamanho_seq(p->item->palavras); i++){
+                char *word = retorna_chave_posicao(p->item->palavras, i);
+                if(word != NULL){
+                    fprintf(fp,",%s", word);
+                    free(word);
+                }
+            }
+            if(p->proximo != NULL){
+                fprintf(fp, "\n");
+            }
+            p = p->proximo;
+        }
+
+        fclose(fp);
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
 
 
 NO *copia_no(NO *p){
@@ -34,6 +86,7 @@ NO *copia_no(NO *p){
 
     aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
 
+/*
     for(i=0; i < tamanho_seq(p->item->palavras); i++){
         word = retorna_chave_posicao(p->item->palavras, i);
 
@@ -42,7 +95,7 @@ NO *copia_no(NO *p){
             free(word);
         }
     }
-
+*/
     return aux;
 }
 
@@ -309,7 +362,7 @@ void sugestao_site(LISTA *lista, char *chave){
 
         while(p != NULL){
             if(busca_chave(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
-
+printf("achei palavra\n");
                 insere_site(sugestoes, copia_no(p));
 //<<<<<<< HEAD
 
@@ -329,62 +382,7 @@ void sugestao_site(LISTA *lista, char *chave){
         }
     }
 
-
-
     liberar_lista(&aux);
     apagar_lista(&sugestoes);
-    printf("teste malosc\n");
-}
-
-boolean atualizar_arquivo(LISTA *lista){
-    FILE *fp = fopen("googlebot.txt", "w");
-    int i;
-
-    if(fp != NULL){
-        NO *p = lista->cabeca->proximo;
-
-/*//=======
-
-            }
-            p = p->proximo;
-
-        }
-        free(word);
-    }
-
-    imprime_lista(sugestoes);
-
-    liberar_lista(&aux);
-    apagar_lista(&sugestoes);
-}
-
-boolean atualizar_arquivo(LISTA *lista){
-    FILE *fp = fopen("googlebot.txt", "w");
-    int i;
-
-    if(fp != NULL){
-        NO *p = lista->cabeca->proximo;
-
-//>>>>>>> origin/master*/
-        while(p != NULL){
-            fprintf(fp,"%.4d,%s,%d,%s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
-            for(i=0; i < tamanho_seq(p->item->palavras); i++){
-                char *word = retorna_chave_posicao(p->item->palavras, i);
-                if(word != NULL){
-                    fprintf(fp,",%s", word);
-                    free(word);
-                }
-            }
-            if(p->proximo != NULL){
-                fprintf(fp, "\n");
-            }
-            p = p->proximo;
-        }
-
-        fclose(fp);
-
-        return TRUE;
-    }
-
-    return FALSE;
+    //printf("teste malosc\n");
 }
