@@ -22,7 +22,6 @@ struct lista{
     NO *cabeca;
     NO *fim;
     int tamanho;
-    //aramzenar o ultimo codigo utilizado?
 };
 
 boolean atualizar_arquivo(LISTA *lista){
@@ -32,33 +31,10 @@ boolean atualizar_arquivo(LISTA *lista){
     if(fp != NULL){
         NO *p = lista->cabeca->proximo;
 
-/*//=======
-
-            }
-            p = p->proximo;
-
-        }
-        free(word);
-    }
-
-    imprime_lista(sugestoes);
-
-    liberar_lista(&aux);
-    apagar_lista(&sugestoes);
-}
-
-boolean atualizar_arquivo(LISTA *lista){
-    FILE *fp = fopen("googlebot.txt", "w");
-    int i;
-
-    if(fp != NULL){
-        NO *p = lista->cabeca->proximo;
-
-//>>>>>>> origin/master*/
         while(p != NULL){
             fprintf(fp,"%.4d,%s,%d,%s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
             for(i=0; i < tamanho_seq(p->item->palavras); i++){
-                char *word = retorna_chave_posicao(p->item->palavras, i);
+                char *word = retorna_chave_posicao_seq(p->item->palavras, i);
                 if(word != NULL){
                     fprintf(fp,",%s", word);
                     free(word);
@@ -86,20 +62,10 @@ NO *copia_no(NO *p){
 
     aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
 if(aux == NULL) printf("aux eh null\n\n");
-/*
-    for(i=0; i < tamanho_seq(p->item->palavras); i++){
-        word = retorna_chave_posicao(p->item->palavras, i);
 
-        if(word != NULL){
-            inserir_ordenado(aux->item->palavras, word);
-            free(word);
-        }
-    }
-*/
     return aux;
 }
 
-//<<<<<<< HEAD
 void imprime_site_busca(NO *p){
     printf("%s - %s", p->item->nomeSite, p->item->link);
     printf("\n");
@@ -124,7 +90,7 @@ boolean retira_no(LISTA *lista, NO *p){
 }
 
 void apaga_no(NO **ptr){
-    liberar_lista(&((*ptr)->item->palavras));
+    liberar_lista_seq(&((*ptr)->item->palavras));
     free((*ptr)->item);
     free(*ptr);
     *ptr = NULL;
@@ -189,7 +155,7 @@ LISTA *criar_lista(){
 
 void apagar_lista(LISTA **ptr){
     if(ptr != NULL && (*ptr) != NULL){
-        atualizar_arquivo(*ptr); //lugar errado
+        atualizar_arquivo(*ptr);
 
         if(vazia(*ptr) == FALSE){
             esvazia_lista((*ptr)->cabeca->proximo);
@@ -223,18 +189,12 @@ void imprime_lista(LISTA *lista){
     if(!vazia(lista) && (lista!=NULL)){
         p = lista->cabeca->proximo;
         while(p != NULL){
-//<<<<<<< HEAD
-            //imprime_site(p);
             printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
             imprime_lista_seq(p->item->palavras);
             printf("\n");
-
-/*//=======
-            imprime_site(p);
-//>>>>>>> origin/master*/
             p = p->proximo;
         }
-    }
+    }else printf("Lista vazia.\n");
 }
 
 //inserir no final e chamar funcao de ordenacao
@@ -273,7 +233,7 @@ boolean insere_site(LISTA *lista, NO *p){
             }
             return TRUE;
         } else {
-	    apaga_no(&p);
+        apaga_no(&p);
             return FALSE;
         }
     }
@@ -290,7 +250,7 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
                 return FALSE;
             }
             if(tamanho_seq(aux->item->palavras) < 10){
-                inserir_ordenado(aux->item->palavras, chave);
+                inserir_ordenado_seq(aux->item->palavras, chave);
             } else {
                 printf("ERRO: Numero max de 10 palavras ja atingido! Palavra nao foi inserida.\n");
             }
@@ -304,10 +264,7 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
 
 boolean remove_site(LISTA *lista, int codigo) {
     if (!vazia(lista)) {
-        //NO *p = lista->cabeca->proximo;
         NO *p = existe_codigo(lista, codigo);
-        /*while(p != NULL && p->item->codigo != codigo)
-            p = p->proximo;*/
 
         if(retira_no(lista, p)){
             apaga_no(&p);
@@ -321,23 +278,18 @@ void atualiza_relevancia(LISTA *lista, int code, int relevancia){
     NO *p = existe_codigo(lista, code);
     if(p != NULL){
         p->item->relevancia = relevancia;
-        //ordenaLista(lista, p);
-        //insertionSort(lista);
-    //printf("tentando RETIRAR da lista:\n");
+
         retira_no(lista, p);
-    //printf("tentando INSERIR da lista:\n");
         insere_site(lista, p);
-    //printf("FEITO\n");
-    }
+    }else printf("Codigo nao encontrado!\n");
 
 }
-
 
 
 void busca_palavra(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
-        if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
+        if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
             imprime_site_busca(p);
         }
         p = p->proximo;
@@ -351,28 +303,23 @@ void sugestao_site(LISTA *lista, char *chave){
 
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
-        if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-            transfere(aux, p->item->palavras);
+        if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
+            transfere_seq(aux, p->item->palavras);
         }
         p = p->proximo;
     }
 
-    while(!listaVazia(aux)){
-        char *word = remove_fim(aux);
+    while(!listaVazia_seq(aux)){
+        char *word = remove_fim_seq(aux);
         p = lista->cabeca->proximo;
 
         while(p != NULL){
-            if(busca_chave(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
-printf("achei palavra '%s'\n", word);
-        //	if((existe_codigo(lista, p->item->codigo)) == NULL){
-                    insere_site(sugestoes, criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link)));
-	//	}
-//<<<<<<< HEAD
-
+            if(busca_chave_seq(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
+                insere_site(sugestoes, criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link)));
             }
             p = p->proximo;
-
         }
+
         free(word);
     }
 
@@ -385,7 +332,6 @@ printf("achei palavra '%s'\n", word);
         }
     }
 
-    liberar_lista(&aux);
+    liberar_lista_seq(&aux);
     apagar_lista(&sugestoes);
-    //printf("teste malosc\n");
 }
