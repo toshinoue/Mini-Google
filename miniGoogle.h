@@ -13,7 +13,7 @@ typedef struct lista LISTA;
 typedef int boolean;
 
 LISTA *criar_lista();
-ITEM *criar_item(/*parametros para criar site*/);
+ITEM *criar_item();
 NO *criar_no(ITEM *item);
 
 void apagar_lista(LISTA **ptr);
