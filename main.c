@@ -101,7 +101,7 @@ int main(int argc, char const *argv[])
     leArquivo(fp, lista);
 
     fclose(fp);
-//VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
+
 	if(fp != NULL){
         do{
             printf("1 - Inserir site\n2 - Inserir palavra chave\n3 - Remover um site\n4 - Atualizar relevancia\n");
