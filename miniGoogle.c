@@ -85,7 +85,7 @@ NO *copia_no(NO *p){
     char *word;
 
     aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
-
+if(aux == NULL) printf("aux eh null\n\n");
 /*
     for(i=0; i < tamanho_seq(p->item->palavras); i++){
         word = retorna_chave_posicao(p->item->palavras, i);
@@ -273,6 +273,7 @@ boolean insere_site(LISTA *lista, NO *p){
             }
             return TRUE;
         } else {
+	    apaga_no(&p);
             return FALSE;
         }
     }
@@ -362,8 +363,10 @@ void sugestao_site(LISTA *lista, char *chave){
 
         while(p != NULL){
             if(busca_chave(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
-printf("achei palavra\n");
-                insere_site(sugestoes, copia_no(p));
+printf("achei palavra '%s'\n", word);
+        //	if((existe_codigo(lista, p->item->codigo)) == NULL){
+                    insere_site(sugestoes, criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link)));
+	//	}
 //<<<<<<< HEAD
 
             }
