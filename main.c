@@ -153,7 +153,7 @@ int main(int argc, char const *argv[])
                     }while(codigo < 0 || codigo > 9999);
 
                     getchar();
-                    printf("Palvra chave: ");
+                    printf("Palavra chave: ");
                     palavra = lerString();
                     if(strlen(palavra) > TAM-1)
                         palavra[TAM-1] = '\0';
