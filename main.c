@@ -37,7 +37,7 @@ char *lerString(){
 
 void leArquivo(FILE *fp, LISTA *lista){
 	int codigo, relevancia, i;
-	char nomeSite[TAM], link[N], palavra[TAM]/*gambiarra '-'*/;
+	char nomeSite[TAM], link[N];
 
 	char carac;
 	char *tok;
@@ -72,7 +72,6 @@ void leArquivo(FILE *fp, LISTA *lista){
 
 		tok = strtok(NULL, ",");
 		while(tok != NULL){
-			//strcpy(palavra, tok);
 
 			for(i=0; i < strlen(tok); i++){
                 tok[i] = ctolower(tok[i]);
@@ -91,15 +90,153 @@ void leArquivo(FILE *fp, LISTA *lista){
 int main(int argc, char const *argv[])
 {
     FILE *fp = fopen("googlebot.txt", "r");
-    
-    if(fp != NULL){
+//<<<<<<< HEAD
+    LISTA *lista = criar_lista();
+    int oper, codigo, relevancia, i;
+    //char *palavra;
+    char *palavra, *nomeSite, *link;
+
+    leArquivo(fp, lista);
+
+    fclose(fp);
+//VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
+	do{
+        printf("1 - Inserir site\n2 - Inserir palavra chave\n3 - Remover um site\n4 - Atualizar relevancia\n");
+        printf("5 - Mostrar lista\n6 - Busca por palavra chave\n7 - Sugestoes de sites\n8 - Sair\n\n");
+		scanf("%d", &oper);
+		switch(oper){
+			case 1:
+			//Inserir um novo site na lista
+				do{
+                    printf("Codigo: ");
+                    scanf("%d", &codigo);
+                    if(codigo < 0 || codigo > 9999)
+                        printf("Codigo invalido. Digite um valor entre 0 e 9999\n");
+				}while(codigo < 0 || codigo > 9999);
+
+				getchar();
+				printf("Nome Site: ");
+				nomeSite = lerString();
+				if(strlen(nomeSite) > 50)
+                    nomeSite[50] = '\0';
+
+				do{
+                    printf("Relevancia: ");
+                    scanf("%d", &relevancia);
+                    if(relevancia < 0 || relevancia > 1000)
+                        printf("Relevancia invalido. Digite um valor entre 0 e 1000\n");
+				}while(relevancia < 0 || relevancia > 1000);
+
+				getchar();
+				printf("Link: ");
+				link = lerString();
+				if(strlen(link) > 100)
+                    link[100] = '\0';
+
+				insere_site( lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
+				free(link);
+				free(nomeSite);
+				break;
+			case 2:
+			//Inserir palavra chave
+                do{
+                    printf("Codigo: ");
+                    scanf("%d", &codigo);
+                    if(codigo < 0 || codigo > 9999)
+                        printf("Codigo invalido. Digite um valor entre 0 e 9999\n");
+				}while(codigo < 0 || codigo > 9999);
+
+                getchar();
+                printf("Palvra chave: ");
+                palavra = lerString();
+                if(strlen(palavra) > 50)
+                    palavra[50] = '\0';
+
+                for(i=0; i < strlen(palavra); i++){
+                    palavra[i] = ctolower(palavra[i]);
+                }
+
+                insere_chave(lista, codigo, palavra);
+                free(palavra);
+				break;
+			case 3:
+			//Remover um site
+                do{
+                    printf("Codigo: ");
+                    scanf("%d", &codigo);
+                    if(codigo < 0 || codigo > 9999)
+                        printf("Codigo invalido. Digite um valor entre 0 e 9999\n");
+				}while(codigo < 0 || codigo > 9999);
+
+                remove_site(lista, codigo);
+				break;
+			case 4:
+			//Atualizar relevancia
+                do{
+                    printf("Codigo: ");
+                    scanf("%d", &codigo);
+                    if(codigo < 0 || codigo > 9999)
+                        printf("Codigo invalido. Digite um valor entre 0 e 9999\n");
+				}while(codigo < 0 || codigo > 9999);
+
+                do{
+                    printf("Relevancia: ");
+                    scanf("%d", &relevancia);
+                    if(relevancia < 0 || relevancia > 1000)
+                        printf("Relevancia invalido. Digite um valor entre 0 e 1000\n");
+				}while(relevancia < 0 || relevancia > 1000);
+
+                atualiza_relevancia(lista, codigo, relevancia);
+				break;
+			case 5:
+			//Mostrar a lista
+                imprime_lista(lista);
+				break;
+			case 6:
+			//Busca por palavra chave
+                getchar();
+                printf("Palavra chave: ");
+                palavra = lerString();
+                if(strlen(palavra) > 50)
+                    palavra[50] = '\0';
+
+                for(i=0; i < strlen(palavra); i++){
+                    palavra[i] = ctolower(palavra[i]);
+                }
+
+                busca_palavra(lista, palavra);
+                free(palavra);
+				break;
+			case 7:
+			//Sugestao do site
+                getchar();
+                printf("Palavra chave: ");
+                palavra = lerString();
+                if(strlen(palavra) > 50)
+                    palavra[50] = '\0';
+
+                for(i=0; i < strlen(palavra); i++){
+                    palavra[i] = ctolower(palavra[i]);
+                }
+
+                sugestao_site(lista, palavra);
+                free(palavra);
+				break;
+            default: break;
+		}
+	}while(oper != 8);
+
+	apagar_lista(&lista);
+//=======
+
+ /*   if(fp != NULL){
 	    LISTA *lista = criar_lista();
 	    int oper, codigo, relevancia, i;
 	    //char *palavra;
 	    char *palavra, *nomeSite, *link;
-	
+
 	    leArquivo(fp, lista);
-	
+
 	    fclose(fp);
 	//VERIFICAR SE AS STRINGS ESTAO COM TAMANHO CERTO
 		do{
@@ -165,11 +302,12 @@ int main(int argc, char const *argv[])
 	            default: break;
 			}
 		}while(oper != 8);
-	
+
 		apagar_lista(&lista);
     } else {
     	printf("Could not open googlebot.txt\n");
-    }
+    }*/
+//>>>>>>> origin/master
 
 	return 0;
 }
