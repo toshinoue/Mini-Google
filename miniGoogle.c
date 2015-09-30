@@ -75,7 +75,7 @@ void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
     }
 }*/
 
-boolean *retira_no(LISTA *lista, NO *p){
+boolean retira_no(LISTA *lista, NO *p){
     if(p != NULL){
         p->anterior->proximo = p->proximo;
 
