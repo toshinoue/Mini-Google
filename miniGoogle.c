@@ -28,7 +28,7 @@ boolean atualizar_arquivo(LISTA *lista){
     FILE *fp = fopen("googlebot.txt", "w");
     int i;
 
-    if(fp != NULL){
+    if(fp != NULL && lista != NULL){
         NO *p = lista->cabeca->proximo;
 
         while(p != NULL){
@@ -56,24 +56,23 @@ boolean atualizar_arquivo(LISTA *lista){
 
 
 NO *copia_no(NO *p){
-    NO *aux;
-    int i;
-    char *word;
-
-    aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
-if(aux == NULL) printf("aux eh null\n\n");
+    NO *aux = NULL;
+    if(p != NULL)
+        aux = criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link));
 
     return aux;
 }
 
 void imprime_site_busca(NO *p){
-    printf("%s - %s", p->item->nomeSite, p->item->link);
-    printf("\n");
+    if(p != NULL){
+        printf("%s - %s", p->item->nomeSite, p->item->link);
+        printf("\n");
+    }
 }
 
 
 boolean retira_no(LISTA *lista, NO *p){
-    if(p != NULL){
+    if(lista != NULL && p != NULL){
         p->anterior->proximo = p->proximo;
 
         if(p != lista->fim)
@@ -90,21 +89,33 @@ boolean retira_no(LISTA *lista, NO *p){
 }
 
 void apaga_no(NO **ptr){
-    liberar_lista_seq(&((*ptr)->item->palavras));
-    free((*ptr)->item);
-    free(*ptr);
-    *ptr = NULL;
+    if(ptr != NULL && (*ptr) != NULL){
+        liberar_lista_seq(&((*ptr)->item->palavras));
+        free((*ptr)->item);
+        free(*ptr);
+        *ptr = NULL;
+    }
+}
+
+void esvazia_lista(NO *ptr){
+    if(ptr != NULL && ptr->proximo != NULL)
+        esvazia_lista(ptr->proximo);
+
+    apaga_no(&ptr);
 }
 
 NO *existe_codigo(LISTA *lista, int code){
-    NO *p = lista->cabeca->proximo;
+    if(lista != NULL){
+        NO *p = lista->cabeca->proximo;
 
-    while(p != NULL && p->item->codigo != code){
-        p = p->proximo;
+        while(p != NULL && p->item->codigo != code){
+            p = p->proximo;
+        }
+        if(p != NULL){
+            return p;
+        }
     }
-    if(p != NULL){
-        return p;
-    }else return NULL;
+    return NULL;
 }
 
 ITEM *criar_item(int codigo, char *nomeSite, int relevancia, char *link){
@@ -124,16 +135,19 @@ ITEM *criar_item(int codigo, char *nomeSite, int relevancia, char *link){
 }
 
 NO *criar_no(ITEM *item){
-    NO *n = (NO *) malloc(sizeof(NO));
+    if(item != NULL){
+        NO *n = (NO *) malloc(sizeof(NO));
 
-    if ((n != NULL) && (item != NULL)){
-        n->item = item;
-        n->anterior = NULL;
-        n->proximo = NULL;
-        return(n);
+        if (n != NULL){
+            n->item = item;
+            n->anterior = NULL;
+            n->proximo = NULL;
+            return(n);
+        }
+        else
+            return(NULL);
     }
-    else
-        return(NULL);
+    return (NULL);
 }
 
 LISTA *criar_lista(){
@@ -155,8 +169,6 @@ LISTA *criar_lista(){
 
 void apagar_lista(LISTA **ptr){
     if(ptr != NULL && (*ptr) != NULL){
-        atualizar_arquivo(*ptr);
-
         if(vazia(*ptr) == FALSE){
             esvazia_lista((*ptr)->cabeca->proximo);
         }
@@ -166,14 +178,9 @@ void apagar_lista(LISTA **ptr){
      }
 }
 
-void esvazia_lista(NO *ptr){
-    if(ptr->proximo != NULL)
-        esvazia_lista(ptr->proximo);
-
-    apaga_no(&ptr);
-}
-
 boolean vazia(LISTA *lista){
+    if(lista == NULL)
+        return (TRUE);
     if(lista->cabeca->proximo == NULL)
         return(TRUE);
 
@@ -181,12 +188,15 @@ boolean vazia(LISTA *lista){
 }
 
 int tamanho(LISTA *lista){
-    return(lista->tamanho);
+    if(lista!=NULL)
+        return(lista->tamanho);
+    return 0;
 }
 
 void imprime_lista(LISTA *lista){
     NO *p;
-    if(!vazia(lista) && (lista!=NULL)){
+
+    if(lista!=NULL && !vazia(lista)){
         p = lista->cabeca->proximo;
         while(p != NULL){
             printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
@@ -197,7 +207,6 @@ void imprime_lista(LISTA *lista){
     }else printf("Lista vazia.\n");
 }
 
-//inserir no final e chamar funcao de ordenacao
 boolean insere_site(LISTA *lista, NO *p){
     if(lista != NULL && p != NULL){
         if((existe_codigo(lista, p->item->codigo)) == NULL){
@@ -216,6 +225,11 @@ boolean insere_site(LISTA *lista, NO *p){
                     n = n->proximo;
                 }
 
+                while(n != NULL && n->item->relevancia == p->item->relevancia && n->item->codigo < p->item->codigo){
+                    n = n->proximo;
+                }
+
+
                 if(n == NULL){
                     p->anterior = lista->fim;
                     p->proximo = NULL;
@@ -233,7 +247,7 @@ boolean insere_site(LISTA *lista, NO *p){
             }
             return TRUE;
         } else {
-        apaga_no(&p);
+            apaga_no(&p);
             return FALSE;
         }
     }
@@ -263,7 +277,7 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
 }
 
 boolean remove_site(LISTA *lista, int codigo) {
-    if (!vazia(lista)) {
+    if (lista != NULL && !vazia(lista)) {
         NO *p = existe_codigo(lista, codigo);
 
         if(retira_no(lista, p)){
@@ -275,24 +289,34 @@ boolean remove_site(LISTA *lista, int codigo) {
 }
 
 void atualiza_relevancia(LISTA *lista, int code, int relevancia){
-    NO *p = existe_codigo(lista, code);
-    if(p != NULL){
-        p->item->relevancia = relevancia;
+    if(lista != NULL){
+        NO *p = existe_codigo(lista, code);
+        if(p != NULL){
+            p->item->relevancia = relevancia;
 
-        retira_no(lista, p);
-        insere_site(lista, p);
-    }else printf("Codigo nao encontrado!\n");
-
+            retira_no(lista, p);
+            insere_site(lista, p);
+        }else printf("Codigo nao encontrado!\n");
+    }
 }
 
 
 void busca_palavra(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
-    while(p != NULL){
-        if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-            imprime_site_busca(p);
+    int flag = 0;
+
+    if(lista != NULL && chave != NULL){
+        while(p != NULL){
+            if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
+                imprime_site_busca(p);
+                flag = 1;
+            }
+            p = p->proximo;
         }
-        p = p->proximo;
+
+        if(flag == 0){
+            printf("Nenhum resultado encontrado!\n");
+        }
     }
 
 }
@@ -300,38 +324,52 @@ void busca_palavra(LISTA *lista, char *chave){
 void sugestao_site(LISTA *lista, char *chave){
     LISTA *sugestoes = criar_lista();
     LISTA_SEQ *aux = criar_lista_seq();
+    int flag = 0;
 
-    NO *p = lista->cabeca->proximo;
-    while(p != NULL){
-        if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-            transfere_seq(aux, p->item->palavras);
-        }
-        p = p->proximo;
-    }
-
-    while(!listaVazia_seq(aux)){
-        char *word = remove_fim_seq(aux);
-        p = lista->cabeca->proximo;
-
+    if(lista != NULL && chave != NULL){
+        NO *p = lista->cabeca->proximo;
         while(p != NULL){
-            if(busca_chave_seq(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
-                insere_site(sugestoes, criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link)));
+            if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
+                transfere_seq(aux, p->item->palavras);
+                flag = 1;
             }
             p = p->proximo;
         }
 
-        free(word);
-    }
+        while(!listaVazia_seq(aux)){
+            char *word = remove_fim_seq(aux);
+            p = lista->cabeca->proximo;
 
-    //imprime_lista(sugestoes);
-    if(!vazia(sugestoes) && (sugestoes!=NULL)){
-        p = sugestoes->cabeca->proximo;
-        while(p != NULL){
-            imprime_site_busca(p);
-            p = p->proximo;
+            while(p != NULL){
+                if(busca_chave_seq(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
+                    insere_site(sugestoes, criar_no(criar_item(p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link)));
+                }
+                p = p->proximo;
+            }
+
+            free(word);
         }
-    }
 
-    liberar_lista_seq(&aux);
-    apagar_lista(&sugestoes);
+        if(!vazia(sugestoes) && (sugestoes!=NULL)){
+            p = sugestoes->cabeca->proximo;
+            while(p != NULL){
+                imprime_site_busca(p);
+                p = p->proximo;
+            }
+        }
+
+        if(flag == 0){
+            printf("Nenhum resultado encontrado!\n");
+        }
+
+        liberar_lista_seq(&aux);
+        apagar_lista(&sugestoes);
+    }
+}
+
+void finaliza_lista(LISTA **ptr){
+    if(ptr != NULL && (*ptr) != NULL){
+        atualizar_arquivo(*ptr);
+        apagar_lista(ptr);
+    }
 }
