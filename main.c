@@ -61,20 +61,21 @@ void leArquivo(FILE *fp, LISTA *lista){
 
 		tok = strtok(NULL, ",");
 		strcpy(nomeSite, tok);
+        nomeSite[TAM-1] = '\0';
 
 		tok = strtok(NULL, ",");
 		relevancia = atoi(tok);
 
 		tok = strtok(NULL, ",");
 		strcpy(link, tok);
+		link[N-1] = '\0';
 
         insere_site(lista, criar_no(criar_item(codigo, nomeSite, relevancia, link)));
 
 		tok = strtok(NULL, ",");
 		while(tok != NULL){
-
 			for(i=0; i < strlen(tok); i++){
-                tok[i] = ctolower(tok[i]);
+                tok[i] = ctolower(tok[i]); //verificar tamanho da palavra
 			}
 
 			insere_chave(lista, codigo, tok);
