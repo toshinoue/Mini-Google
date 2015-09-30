@@ -24,6 +24,12 @@ struct lista{
     int tamanho;
 };
 
+/* atualizar_arquivo() - Funcao que atualiza o arquivo googlebot.txt com as informacoes contida na lista recebida, reescrevendo o arquivo inteiro
+	Parametros:
+		LISTA *lista - ponteiro para lista de sites
+	Retorno:
+		boolean(int) - retorna TRUE se a funcao conseguir atualizar o arquivo com sucesso, caso contrario FALSE
+*/
 boolean atualizar_arquivo(LISTA *lista){
     FILE *fp = fopen("googlebot.txt", "w");
     int i;
@@ -34,6 +40,7 @@ boolean atualizar_arquivo(LISTA *lista){
         while(p != NULL){
             fprintf(fp,"%.4d,%s,%d,%s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
             for(i=0; i < tamanho_seq(p->item->palavras); i++){
+                //palavras chaves
                 char *word = retorna_chave_posicao_seq(p->item->palavras, i);
                 if(word != NULL){
                     fprintf(fp,",%s", word);
@@ -54,7 +61,12 @@ boolean atualizar_arquivo(LISTA *lista){
     return FALSE;
 }
 
-
+/* copia_no() - Funcao que copia as informacoes de um NO recebido para outro que eh retornado
+	Parametros:
+		NO *p - ponteiro para um NO
+	Retorno:
+		NO* - retorna um NO alocado dinamicamente
+*/
 NO *copia_no(NO *p){
     NO *aux = NULL;
     if(p != NULL)
@@ -63,6 +75,12 @@ NO *copia_no(NO *p){
     return aux;
 }
 
+/* imprime_site_busca() - Funcao que imprime o nome e o link de um site provindo de uma busca
+	Parametros:
+		NO *p - ponteiro para um NO
+	Retorno:
+		Nao ha
+*/
 void imprime_site_busca(NO *p){
     if(p != NULL){
         printf("%s - %s", p->item->nomeSite, p->item->link);
@@ -70,7 +88,13 @@ void imprime_site_busca(NO *p){
     }
 }
 
-
+/* retira_no() - Funcao que retira um NO recebido da lista, mas nao o libera
+	Parametros:
+        LISTA *lista - ponteiro para lista de sites
+		NO *p - ponteiro para um NO que sera retirado da lista
+	Retorno:
+		boolean(int) - retorna TRUE se a funcao conseguiu retirar o NO com sucesso, caso contrario FALSE
+*/
 boolean retira_no(LISTA *lista, NO *p){
     if(lista != NULL && p != NULL){
         p->anterior->proximo = p->proximo;
@@ -88,6 +112,12 @@ boolean retira_no(LISTA *lista, NO *p){
     return (FALSE);
 }
 
+/* apaga_no() - Funcao que libera um NO recebido
+	Parametros:
+		NO **ptr - ponteiro que aponta para um ponteiro para um NO
+	Retorno:
+		Nao ha
+*/
 void apaga_no(NO **ptr){
     if(ptr != NULL && (*ptr) != NULL){
         liberar_lista_seq(&((*ptr)->item->palavras));
@@ -97,6 +127,12 @@ void apaga_no(NO **ptr){
     }
 }
 
+/* esvazia_lista() - Funcao que percorre todos os NOS de uma lista recursivamente e liberando-os
+	Parametros:
+		NO *p - ponteiro para um NO
+	Retorno:
+		Nao ha
+*/
 void esvazia_lista(NO *ptr){
     if(ptr != NULL && ptr->proximo != NULL)
         esvazia_lista(ptr->proximo);
@@ -104,6 +140,13 @@ void esvazia_lista(NO *ptr){
     apaga_no(&ptr);
 }
 
+/* existe_codigo() - Funcao que verifica se existe algum site com o codigo recebido dentro da lista
+	Parametros:
+		LISTA *lista - ponteiro para lista de sites
+		int code - codigo a ser procurado
+	Retorno:
+		NO* - NO que contem o codigo, ou NULL caso nao exista um NO ocm o codigo
+*/
 NO *existe_codigo(LISTA *lista, int code){
     if(lista != NULL){
         NO *p = lista->cabeca->proximo;
@@ -117,6 +160,8 @@ NO *existe_codigo(LISTA *lista, int code){
     }
     return NULL;
 }
+
+
 
 ITEM *criar_item(int codigo, char *nomeSite, int relevancia, char *link){
     ITEM *item;
@@ -210,7 +255,7 @@ void imprime_lista(LISTA *lista){
 boolean insere_site(LISTA *lista, NO *p){
     if(lista != NULL && p != NULL){
         if((existe_codigo(lista, p->item->codigo)) == NULL){
-            if(vazia(lista)){
+            if(vazia(lista)){ //inserindo em lista vazia
                 lista->cabeca->proximo = p;
                 lista->fim = p;
                 lista->tamanho++;
@@ -221,10 +266,12 @@ boolean insere_site(LISTA *lista, NO *p){
             else{
                 NO *n = lista->cabeca->proximo;
 
+                //verificando a posicao referente a relevancia
                 while(n != NULL && n->item->relevancia > p->item->relevancia){
                     n = n->proximo;
                 }
 
+                //em caso de relevancias iguais, o codigo eh utilizado como desempate
                 while(n != NULL && n->item->relevancia == p->item->relevancia && n->item->codigo < p->item->codigo){
                     n = n->proximo;
                 }
@@ -328,6 +375,7 @@ void sugestao_site(LISTA *lista, char *chave){
 
     if(lista != NULL && chave != NULL){
         NO *p = lista->cabeca->proximo;
+        //primeira busca e preenchendo a lista 'aux' com as palavras chaves de todos os resultados encontrados
         while(p != NULL){
             if(busca_chave_seq(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
                 transfere_seq(aux, p->item->palavras);
@@ -336,6 +384,7 @@ void sugestao_site(LISTA *lista, char *chave){
             p = p->proximo;
         }
 
+        //segunda busca - utilizando todas as palavras chaves
         while(!listaVazia_seq(aux)){
             char *word = remove_fim_seq(aux);
             p = lista->cabeca->proximo;
@@ -350,6 +399,7 @@ void sugestao_site(LISTA *lista, char *chave){
             free(word);
         }
 
+        //imprimindo os resultados
         if(!vazia(sugestoes) && (sugestoes!=NULL)){
             p = sugestoes->cabeca->proximo;
             while(p != NULL){
