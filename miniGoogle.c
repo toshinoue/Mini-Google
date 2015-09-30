@@ -52,28 +52,6 @@ void imprime_site_busca(NO *p){
     printf("\n");
 }
 
-/*void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
-/*=======
-void imprime_site(NO *p){
-    printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
-    imprime_lista_seq(p->item->palavras);
-    printf("\n");
-}
-
-void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
->>>>>>> origin/master*/
-/*    NO *i, *j, *aux;
-
-    for (i = lista->cabeca->proximo->proximo; i != NULL; i = i->proximo) {
-        ITEM *chave = i->item;
-        j = i->anterior;
-        while (j != lista->cabeca && j->item->relevancia < chave->relevancia) {
-            j->proximo->item = j->item;
-            j = j->anterior;
-        }
-        j->proximo->item = chave;
-    }
-}*/
 
 boolean retira_no(LISTA *lista, NO *p){
     if(p != NULL){
@@ -99,7 +77,6 @@ void apaga_no(NO **ptr){
     *ptr = NULL;
 }
 
-//mudar nome??? -> busca_codigo
 NO *existe_codigo(LISTA *lista, int code){
     NO *p = lista->cabeca->proximo;
 
@@ -111,14 +88,13 @@ NO *existe_codigo(LISTA *lista, int code){
     }else return NULL;
 }
 
-//se o site for novo (nao foi lido do txt), o codigo sera igual a -1
-ITEM *criar_item(int codigo, char nomeSite[TAM], int relevancia, char link[N]){
+ITEM *criar_item(int codigo, char *nomeSite, int relevancia, char *link){
     ITEM *item;
 
     item = (ITEM *) malloc(sizeof(ITEM));
 
     if (item != NULL){
-        item->codigo = codigo; //verificar se o codigo ja existe caso seja um codigo valido
+        item->codigo = codigo;
         strcpy(item->nomeSite, nomeSite);
         strcpy(item->link, link);
         item->relevancia = relevancia;
@@ -160,7 +136,7 @@ LISTA *criar_lista(){
 
 void apagar_lista(LISTA **ptr){
     if(ptr != NULL && (*ptr) != NULL){
-        atualizar_arquivo(*ptr);
+        atualizar_arquivo(*ptr); //lugar errado
 
         if(vazia(*ptr) == FALSE){
             esvazia_lista((*ptr)->cabeca->proximo);
@@ -357,6 +333,7 @@ void sugestao_site(LISTA *lista, char *chave){
 
     liberar_lista(&aux);
     apagar_lista(&sugestoes);
+    printf("teste malosc\n");
 }
 
 boolean atualizar_arquivo(LISTA *lista){
