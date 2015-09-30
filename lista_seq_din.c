@@ -86,7 +86,7 @@ void imprime_lista_seq(LISTA_SEQ *lista){
 }
 
 int busca_chave_seq(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim){
-    if(!listaVazia_seq(lista)){
+    if(lista != NULL && chave != NULL && !listaVazia_seq(lista)){
         if(ini <= fim){
             int centro = (int)((fim+ini)/ 2.0);
 
@@ -101,7 +101,9 @@ int busca_chave_seq(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim){
 }
 
 int tamanho_seq(LISTA_SEQ *lista){
-    return (lista->tamanho);
+    if(lista != NULL)
+        return (lista->tamanho);
+    return 0;
 }
 
 int transfere_seq(LISTA_SEQ *lista, LISTA_SEQ *secundaria){
@@ -119,15 +121,18 @@ int transfere_seq(LISTA_SEQ *lista, LISTA_SEQ *secundaria){
 }
 
 CHAVE *remove_fim_seq(LISTA_SEQ *lista){
-    CHAVE *ret = (char *)malloc(sizeof(char) * strlen(lista->array[lista->tamanho - 1].chave)+1);
-    lista->tamanho--;
-    strcpy(ret, lista->array[lista->tamanho].chave);
-    lista->array = (ITEM_SEQ*)realloc(lista->array, sizeof(ITEM_SEQ)*lista->tamanho);
-    return ret;
+    if(lista != NULL){
+        CHAVE *ret = (char *)malloc(sizeof(char) * strlen(lista->array[lista->tamanho - 1].chave)+1);
+        lista->tamanho--;
+        strcpy(ret, lista->array[lista->tamanho].chave);
+        lista->array = (ITEM_SEQ*)realloc(lista->array, sizeof(ITEM_SEQ)*lista->tamanho);
+        return ret;
+    }
+    return NULL;
 }
 
 CHAVE *retorna_chave_posicao_seq(LISTA_SEQ *lista, int pos){
-    if(pos < lista->tamanho && pos >= 0){
+    if(lista != NULL && pos < lista->tamanho && pos >= 0){
         CHAVE *ret = (char *)malloc(sizeof(char) * strlen(lista->array[pos].chave)+1);
         strcpy(ret, lista->array[pos].chave);
         return ret;
