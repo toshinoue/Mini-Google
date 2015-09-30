@@ -10,22 +10,22 @@ typedef struct lista_seq LISTA_SEQ;
 
 LISTA_SEQ *criar_lista_seq();
 
-void liberar_lista(LISTA_SEQ **lista);
+void liberar_lista_seq(LISTA_SEQ **lista);
 
-void inserir_ordenado(LISTA_SEQ *lista, CHAVE *chave);
+void inserir_ordenado_seq(LISTA_SEQ *lista, CHAVE *chave);
 
-int listaVazia(LISTA_SEQ *lista);
+int listaVazia_seq(LISTA_SEQ *lista);
 
 void imprime_lista_seq(LISTA_SEQ *lista);
 
-int busca_chave(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim);
+int busca_chave_seq(LISTA_SEQ *lista, CHAVE *chave, int ini, int fim);
 
 int tamanho_seq(LISTA_SEQ *lista);
 
-int transfere(LISTA_SEQ *lista, LISTA_SEQ *secundaria);
+int transfere_seq(LISTA_SEQ *lista, LISTA_SEQ *secundaria);
 
-CHAVE *remove_fim(LISTA_SEQ *lista);
+CHAVE *remove_fim_seq(LISTA_SEQ *lista);
 
-CHAVE *retorna_chave_posicao(LISTA_SEQ *lista, int pos);
+CHAVE *retorna_chave_posicao_seq(LISTA_SEQ *lista, int pos);
 
 #endif // LISTA_ESTATICA_H
