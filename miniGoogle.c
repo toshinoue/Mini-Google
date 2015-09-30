@@ -340,7 +340,8 @@ void atualiza_relevancia(LISTA *lista, int code, int relevancia){
         NO *p = existe_codigo(lista, code);
         if(p != NULL){
             p->item->relevancia = relevancia;
-
+		
+	    //reordenando o NO
             retira_no(lista, p);
             insere_site(lista, p);
         }else printf("Codigo nao encontrado!\n");
