@@ -17,7 +17,7 @@ typedef int boolean;
 	Parametros:
 		Nao ha
 	Retorno:
-		LISTA - lista alocada dinamica
+		LISTA* - lista alocada dinamica
 */
 LISTA *criar_lista();
 
@@ -28,7 +28,7 @@ LISTA *criar_lista();
 		int relevancia - relevancia do site
 		char *link - string do link do site
 	Retorno:
-		ITEM - retorna um ITEM contendo as informacoes do site
+		ITEM* - retorna um ITEM contendo as informacoes do site
 */
 ITEM *criar_item(int codigo, char *nomeSite, int relevancia, char *link);
 
@@ -36,7 +36,7 @@ ITEM *criar_item(int codigo, char *nomeSite, int relevancia, char *link);
 	Parametros:
 		ITEM *item - ponteiro para ITEM que contem as informacoes do site
 	Retorno:
-		NO - retorna um NO alocado dinamicamente
+		NO* - retorna um NO alocado dinamicamente
 */
 NO *criar_no(ITEM *item);
 
