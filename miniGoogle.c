@@ -46,6 +46,14 @@ NO *copia_no(NO *p){
     return aux;
 }
 
+//<<<<<<< HEAD
+void imprime_site_busca(NO *p){
+    printf("%s - %s", p->item->nomeSite, p->item->link);
+    printf("\n");
+}
+
+/*void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
+/*=======
 void imprime_site(NO *p){
     printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
     imprime_lista_seq(p->item->palavras);
@@ -53,7 +61,8 @@ void imprime_site(NO *p){
 }
 
 void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
-    NO *i, *j, *aux;
+>>>>>>> origin/master*/
+/*    NO *i, *j, *aux;
 
     for (i = lista->cabeca->proximo->proximo; i != NULL; i = i->proximo) {
         ITEM *chave = i->item;
@@ -64,6 +73,23 @@ void insertionSort(LISTA *lista){ //receber parametro da posicao inicial
         }
         j->proximo->item = chave;
     }
+}*/
+
+boolean *retira_no(LISTA *lista, NO *p){
+    if(p != NULL){
+        p->anterior->proximo = p->proximo;
+
+        if(p != lista->fim)
+            p->proximo->anterior = p->anterior;
+        else
+            lista->fim = p->anterior;
+
+        lista->tamanho--;
+
+        return (TRUE);
+    }
+
+    return (FALSE);
 }
 
 void apaga_no(NO **ptr){
@@ -168,7 +194,15 @@ void imprime_lista(LISTA *lista){
     if(!vazia(lista) && (lista!=NULL)){
         p = lista->cabeca->proximo;
         while(p != NULL){
+//<<<<<<< HEAD
+            //imprime_site(p);
+            printf("%.4d, %s, %d, %s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
+            imprime_lista_seq(p->item->palavras);
+            printf("\n");
+
+/*//=======
             imprime_site(p);
+//>>>>>>> origin/master*/
             p = p->proximo;
         }
     }
@@ -240,20 +274,12 @@ boolean insere_chave(LISTA *lista, int codigo, char *chave){
 
 boolean remove_site(LISTA *lista, int codigo) {
     if (!vazia(lista)) {
-        NO *p = lista->cabeca->proximo;
+        //NO *p = lista->cabeca->proximo;
+        NO *p = existe_codigo(lista, codigo);
+        /*while(p != NULL && p->item->codigo != codigo)
+            p = p->proximo;*/
 
-        while(p != NULL && p->item->codigo != codigo)
-            p = p->proximo;
-
-        if(p != NULL){
-            p->anterior->proximo = p->proximo;
-
-            if(p != lista->fim)
-                p->proximo->anterior = p->anterior;
-            else
-                lista->fim = p->anterior;
-
-            lista->tamanho--;
+        if(retira_no(lista, p)){
             apaga_no(&p);
             return (TRUE);
         }
@@ -264,9 +290,16 @@ boolean remove_site(LISTA *lista, int codigo) {
 void atualiza_relevancia(LISTA *lista, int code, int relevancia){
     NO *p = existe_codigo(lista, code);
     if(p != NULL){
-        p->item->relevancia = relevancia; //TEM QUE ORDENAR ESSA BAGAÇA
+        p->item->relevancia = relevancia;
+        //ordenaLista(lista, p);
+        //insertionSort(lista);
+    //printf("tentando RETIRAR da lista:\n");
+        retira_no(lista, p);
+    //printf("tentando INSERIR da lista:\n");
+        insere_site(lista, p);
+    //printf("FEITO\n");
     }
-    insertionSort(lista);
+
 }
 
 
@@ -275,7 +308,7 @@ void busca_palavra(LISTA *lista, char *chave){
     NO *p = lista->cabeca->proximo;
     while(p != NULL){
         if(busca_chave(p->item->palavras, chave, 0, tamanho_seq(p->item->palavras)-1)){
-            imprime_site(p);
+            imprime_site_busca(p);
         }
         p = p->proximo;
     }
@@ -302,6 +335,38 @@ void sugestao_site(LISTA *lista, char *chave){
             if(busca_chave(p->item->palavras, word, 0, tamanho_seq(p->item->palavras)-1)){
 
                 insere_site(sugestoes, copia_no(p));
+//<<<<<<< HEAD
+
+            }
+            p = p->proximo;
+
+        }
+        free(word);
+    }
+
+    //imprime_lista(sugestoes);
+    if(!vazia(sugestoes) && (sugestoes!=NULL)){
+        p = sugestoes->cabeca->proximo;
+        while(p != NULL){
+            imprime_site_busca(p);
+            p = p->proximo;
+        }
+    }
+
+
+
+    liberar_lista(&aux);
+    apagar_lista(&sugestoes);
+}
+
+boolean atualizar_arquivo(LISTA *lista){
+    FILE *fp = fopen("googlebot.txt", "w");
+    int i;
+
+    if(fp != NULL){
+        NO *p = lista->cabeca->proximo;
+
+/*//=======
 
             }
             p = p->proximo;
@@ -323,6 +388,7 @@ boolean atualizar_arquivo(LISTA *lista){
     if(fp != NULL){
         NO *p = lista->cabeca->proximo;
 
+//>>>>>>> origin/master*/
         while(p != NULL){
             fprintf(fp,"%.4d,%s,%d,%s", p->item->codigo, p->item->nomeSite, p->item->relevancia, p->item->link);
             for(i=0; i < tamanho_seq(p->item->palavras); i++){
