@@ -4,8 +4,8 @@
 #include <string.h>
 
 
-// ASSUMINDO QUE O ARQUIVO GOOGLEBOT.TXT, OS TAMANHOS DAS PALAVRAS CHAVES ESTEJAM DE ACORDO COM O TAMANHO MAX (50 CARACTERES)
-
+// ASSUMINDO QUE O ARQUIVO GOOGLEBOT.TXT, OS TAMANHOS DAS PALAVRAS CHAVES ESTEJAM DE ACORDO COM O TAMANHO MAX (50 CARACTERES), e que o codigo e relevancia sejam valores validos
+//assumindo também que a ultima linha do googlebot.txt nao tem \n
 
 
 /*strtolower() - funcao que recebe  uma letra e retorna a versao maiuscula
@@ -236,7 +236,7 @@ int main(int argc, char const *argv[])
             }
         }while(oper != 8);
 
-        apagar_lista(&lista);
+        finaliza_lista(&lista);
 	} else {
     	printf("Could not open googlebot.txt\n");
     }
