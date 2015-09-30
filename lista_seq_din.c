@@ -13,7 +13,14 @@ struct lista_seq{
 };
 
 
-
+/* troca_seq() - Funcao que troca a posicao de duas palavras da lista
+	Parametros:
+		ITEM_SEQ *array - ponteiro para ITEM_SEQ (vetor de chaves)
+		int i - posicao da primeira palavra
+		int j - posicao da segunda palavra
+	Retorno:
+		Nao ha
+*/
 void troca_seq(ITEM_SEQ *array, int i, int j){
     CHAVE aux[51];
     if(array != NULL){
@@ -23,6 +30,12 @@ void troca_seq(ITEM_SEQ *array, int i, int j){
     }
 }
 
+/* insertion_sort_seq() - Funcao que ordena uma lista recebida utilizando o metodo insertion sort
+	Parametros:
+		LISTA_SEQ *lista - ponteiro para lista de chaves
+	Retorno:
+		Nao ha
+*/
 void insertion_sort_seq(LISTA_SEQ *lista){
     int i, j;
 
