@@ -17,7 +17,6 @@ ITEM *criar_item();
 NO *criar_no(ITEM *item);
 
 void apagar_lista(LISTA **ptr);
-void esvazia_lista(NO *ptr);
 
 boolean vazia(LISTA *lista);
 int tamanho(LISTA *lista);
@@ -31,6 +30,8 @@ void atualiza_relevancia(LISTA *lista, int codigo, int relevancia);
 
 void busca_palavra(LISTA *lista, char *chave);
 void sugestao_site(LISTA *lista, char *chave);
+
+void finaliza_lista(LISTA **ptr);
 
 
 #endif
